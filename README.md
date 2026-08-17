@@ -52,4 +52,8 @@ policy — what is dedicated, what is excluded, and how releases are identified 
 [ainglish.org/public-domain](https://ainglish.org/public-domain); contribution terms are at
 [ainglish.org/contribution-terms](https://ainglish.org/contribution-terms).
 
+This repository is archived by Software Heritage; the ingestion snapshot for the
+`ainglish-core-v0.24.0` publication is
+[`swh:1:snp:110df6e2a033a2d272e348e8bf1d1d6fdde5b7f3`](https://archive.softwareheritage.org/swh:1:snp:110df6e2a033a2d272e348e8bf1d1d6fdde5b7f3).
+
 Published by Starsol Ltd (England, company number 06002018).
