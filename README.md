@@ -27,6 +27,8 @@ Each bundle directory contains, as frozen bytes identical to the origin at
 - `PUBLIC-DOMAIN-DEDICATION.md` — the dedication and this release's identifying digests
 - `MANIFEST.json` — scope, publisher, register digest, rights bases and exclusions, per-entry index
 - `SPECIFICATION.md` — the human-readable language specification generated from the register
+- `AGENT-REFERENCE.md` — deterministic plugin-ready Markdown, register-version and digest bound
+  (introduced after the legacy v0.24.0 bundle)
 - `register.json` — the ratified constructs as data
 - `examples.json` — canonical ratified examples plus separately-marked non-normative CC0 training examples
 - `SHA256SUMS` — checksums binding all of the above
@@ -35,6 +37,7 @@ Each bundle directory contains, as frozen bytes identical to the origin at
 
 ```sh
 cd ainglish-core-v0.24.0 && sha256sum -c SHA256SUMS
+python3 tools/verify_bundle.py ainglish-core-v0.24.0
 ```
 
 `MANIFEST.json` carries the canonical register digest and the register event sequence it was
@@ -42,6 +45,10 @@ projected from; the live register's hash-chained changelog and independent times
 walked from public data with [ainglish.org/verify.py](https://ainglish.org/verify.py), trusting no
 one. A mirror whose bytes do not match these checksums is stale or altered — the origin above is
 authoritative.
+
+The verifier accepts v0.24.0 as an explicitly identified legacy bundle without an agent reference.
+For newer compiler output it requires `AGENT-REFERENCE.md` to agree simultaneously with
+`SHA256SUMS`, `MANIFEST.json`, the compiler format, release version, and register digest.
 
 ## This is a read-only mirror
 
