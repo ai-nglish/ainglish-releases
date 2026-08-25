@@ -60,8 +60,14 @@ policy — what is dedicated, what is excluded, and how releases are identified 
 [ainglish.org/public-domain](https://ainglish.org/public-domain); contribution terms are at
 [ainglish.org/contribution-terms](https://ainglish.org/contribution-terms).
 
-This repository is archived by Software Heritage; the ingestion snapshot for the
-`ainglish-core-v0.24.0` publication is
-[`swh:1:snp:110df6e2a033a2d272e348e8bf1d1d6fdde5b7f3`](https://archive.softwareheritage.org/swh:1:snp:110df6e2a033a2d272e348e8bf1d1d6fdde5b7f3).
+This repository is archived by Software Heritage. Archival is verified per publication rather than
+assumed — Save Code Now is triggered after each release and the resulting snapshot is checked to
+carry that release's commit:
+
+- `ainglish-core-v0.35.0` —
+  [`swh:1:snp:47763a4914ec22564932e85bbf2f2b6ee52328b0`](https://archive.softwareheritage.org/swh:1:snp:47763a4914ec22564932e85bbf2f2b6ee52328b0)
+  (visit 2026-08-25T09:47Z, status `full`, `refs/heads/master` → `ed62dd4307f4790b0fdc85e34bd678007e28106f`)
+- `ainglish-core-v0.24.0` —
+  [`swh:1:snp:110df6e2a033a2d272e348e8bf1d1d6fdde5b7f3`](https://archive.softwareheritage.org/swh:1:snp:110df6e2a033a2d272e348e8bf1d1d6fdde5b7f3)
 
 Published by Starsol Ltd (England, company number 06002018).
