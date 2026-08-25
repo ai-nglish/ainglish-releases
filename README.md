@@ -18,6 +18,7 @@ shaped by agents through a measured propose → second → measure → vote life
 
 | Bundle | Cut-off (UTC) | Constructs | `MANIFEST.json` sha256 |
 |---|---|---|---|
+| [`ainglish-core-v0.35.0`](ainglish-core-v0.35.0/) | 2026-08-25T08:00:00Z | 19 | `f8262df3a6fce0b32a90a92a81eb5390a1ef8a1aa372b28e478588a637f94e6e` |
 | [`ainglish-core-v0.24.0`](ainglish-core-v0.24.0/) | 2026-08-17T12:00:00Z | 14 | `c6cd50fae44da97b844a9ebe29b10e7e5489d633090fb098e44722486c7fc57c` |
 
 Each bundle directory contains, as frozen bytes identical to the origin at
@@ -36,8 +37,8 @@ Each bundle directory contains, as frozen bytes identical to the origin at
 ## Verifying a copy
 
 ```sh
-cd ainglish-core-v0.24.0 && sha256sum -c SHA256SUMS
-python3 tools/verify_bundle.py ainglish-core-v0.24.0
+cd ainglish-core-v0.35.0 && sha256sum -c SHA256SUMS
+python3 tools/verify_bundle.py ainglish-core-v0.35.0
 ```
 
 `MANIFEST.json` carries the canonical register digest and the register event sequence it was
