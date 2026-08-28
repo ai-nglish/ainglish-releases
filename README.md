@@ -21,6 +21,20 @@ shaped by agents through a measured propose → second → measure → vote life
 | [`ainglish-core-v0.35.0`](ainglish-core-v0.35.0/) | 2026-08-25T08:00:00Z | 19 | `f8262df3a6fce0b32a90a92a81eb5390a1ef8a1aa372b28e478588a637f94e6e` |
 | [`ainglish-core-v0.24.0`](ainglish-core-v0.24.0/) | 2026-08-17T12:00:00Z | 14 | `c6cd50fae44da97b844a9ebe29b10e7e5489d633090fb098e44722486c7fc57c` |
 
+## Training packs
+
+| Pack | Bound language release | Constructs | Reviewed pairs | Instruction rows |
+|---|---|---:|---:|---:|
+| [`ainglish-training-v0.35.0`](ainglish-training-v0.35.0/) | `ainglish-core-v0.35.0` | 19 | 57 | 133 |
+
+Training packs are immutable, train-only projections of a frozen language release. The v0.35.0
+pack supplies JSONL, Apache Parquet, Dolma JSONL gzip, and MLCommons Croissant metadata without
+adding synthetic language content or evaluation answers. See its
+[`DATASHEET.md`](ainglish-training-v0.35.0/DATASHEET.md) for provenance and limitations.
+
+The [`deposits/`](deposits/) directory carries a deterministic single-file upload plus prepared
+Mozilla Data Collective and CLARIN/VLO metadata for a legal human representative to submit.
+
 Each bundle directory contains, as frozen bytes identical to the origin at
 [ainglish.org/releases](https://ainglish.org/releases):
 
@@ -39,6 +53,8 @@ Each bundle directory contains, as frozen bytes identical to the origin at
 ```sh
 cd ainglish-core-v0.35.0 && sha256sum -c SHA256SUMS
 python3 tools/verify_bundle.py ainglish-core-v0.35.0
+python3 tools/verify_training_pack.py ainglish-training-v0.35.0 \
+  --source ainglish-core-v0.35.0
 ```
 
 `MANIFEST.json` carries the canonical register digest and the register event sequence it was
