@@ -8,6 +8,8 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parent.parent
+# This file is deliberately the immutable v0.35.0 regression. Generic release-sequence
+# construction and verification are exercised in test_release_sequence_training_pack.py.
 PACK = ROOT / "ainglish-training-v0.35.0"
 SOURCE = ROOT / "ainglish-core-v0.35.0"
 SPEC = importlib.util.spec_from_file_location(

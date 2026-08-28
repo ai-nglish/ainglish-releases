@@ -4,10 +4,13 @@
 from __future__ import annotations
 
 import argparse
+from dataclasses import dataclass
+from datetime import datetime
 import gzip
 import hashlib
 import json
 import pathlib
+import re
 import shutil
 import tempfile
 
@@ -16,9 +19,20 @@ import pyarrow.parquet as pq
 
 
 PACK_KIND = "ainglish.language.training-pack"
-PACK_VERSION = "0.35.0"
-GENERATED_AT = "2026-08-28T08:19:06Z"
-BASE_URL = f"https://ainglish.org/training/ainglish-training-v{PACK_VERSION}"
+VERSION_PATTERN = re.compile(r"(?:0|[1-9][0-9]*)(?:\.(?:0|[1-9][0-9]*)){0,2}")
+
+
+@dataclass(frozen=True)
+class BuildContext:
+    release_version: str
+    register_version: str
+    generated_at: str
+    source_bundle: str
+    legacy_versioning: bool
+
+    @property
+    def base_url(self) -> str:
+        return f"https://ainglish.org/training/ainglish-training-v{self.release_version}"
 
 
 def canonical_json(value: object) -> str:
@@ -39,7 +53,25 @@ def write_jsonl(path: pathlib.Path, rows: list[dict]) -> None:
     path.write_text("".join(canonical_json(row) + "\n" for row in rows), encoding="utf-8")
 
 
-def verify_source_bundle(source: pathlib.Path) -> tuple[dict, dict, dict]:
+def valid_version(value: object, field: str) -> str:
+    if not isinstance(value, str) or not VERSION_PATTERN.fullmatch(value):
+        raise ValueError(f"{field} is not a safe release version")
+    return value
+
+
+def valid_generated_at(value: object) -> str:
+    if not isinstance(value, str):
+        raise ValueError("generated_at must be an explicit UTC timestamp")
+    try:
+        parsed = datetime.strptime(value, "%Y-%m-%dT%H:%M:%SZ")
+    except ValueError as exc:
+        raise ValueError("generated_at must use YYYY-MM-DDTHH:MM:SSZ") from exc
+    if parsed.strftime("%Y-%m-%dT%H:%M:%SZ") != value:
+        raise ValueError("generated_at is not canonical UTC")
+    return value
+
+
+def verify_source_bundle(source: pathlib.Path) -> tuple[dict, dict, dict, str, str, bool]:
     sums = {}
     for line in (source / "SHA256SUMS").read_text(encoding="utf-8").splitlines():
         digest, name = line.split(maxsplit=1)
@@ -50,16 +82,33 @@ def verify_source_bundle(source: pathlib.Path) -> tuple[dict, dict, dict]:
     manifest = json.loads((source / "MANIFEST.json").read_text(encoding="utf-8"))
     register = json.loads((source / "register.json").read_text(encoding="utf-8"))
     examples = json.loads((source / "examples.json").read_text(encoding="utf-8"))
-    if manifest["version"] != PACK_VERSION or register["version"] != PACK_VERSION:
-        raise ValueError(f"this builder is pinned to source release {PACK_VERSION}")
+    release_version = valid_version(manifest.get("version"), "manifest.version")
+    register_version = valid_version(register.get("version"), "register.version")
+    legacy_versioning = "register_version" not in manifest
+    if source.name != f"ainglish-core-v{release_version}":
+        raise ValueError("source directory name disagrees with manifest.version")
+    if legacy_versioning:
+        if register_version != release_version or examples.get("version") != release_version:
+            raise ValueError("legacy source versions disagree")
+        if "release_version" in register or "release_version" in examples:
+            raise ValueError("partially migrated source version contract")
+    else:
+        if valid_version(manifest.get("register_version"), "manifest.register_version") != register_version:
+            raise ValueError("source manifest and register versions disagree")
+        if examples.get("version") != register_version:
+            raise ValueError("source examples register version disagrees")
+        if register.get("release_version") != release_version:
+            raise ValueError("source register release pointer disagrees")
+        if examples.get("release_version") != release_version:
+            raise ValueError("source examples release pointer disagrees")
     if manifest["register_digest"] != register["register_digest"]:
         raise ValueError("source register digest disagrees with its manifest")
-    if examples["version"] != PACK_VERSION:
-        raise ValueError("source examples version disagrees with its manifest")
-    return manifest, register, examples
+    if examples.get("register_digest") != register["register_digest"]:
+        raise ValueError("source examples register digest disagrees")
+    return manifest, register, examples, release_version, register_version, legacy_versioning
 
 
-def parallel_rows(examples: dict, register_digest: str) -> list[dict]:
+def parallel_rows(examples: dict, register_digest: str, release_version: str) -> list[dict]:
     rows = []
     for example in examples["canonical"]:
         rows.append({
@@ -70,7 +119,7 @@ def parallel_rows(examples: dict, register_digest: str) -> list[dict]:
             "normative": True,
             "source": "canonical-release-example",
             "source_batch": None,
-            "source_release_version": PACK_VERSION,
+            "source_release_version": release_version,
             "register_digest": register_digest,
             "split": "train",
         })
@@ -84,14 +133,14 @@ def parallel_rows(examples: dict, register_digest: str) -> list[dict]:
                 "normative": False,
                 "source": "reviewed-non-normative-training-example",
                 "source_batch": batch["batch"],
-                "source_release_version": PACK_VERSION,
+                "source_release_version": release_version,
                 "register_digest": register_digest,
                 "split": "train",
             })
     return sorted(rows, key=lambda row: (row["slug"], not row["normative"], row["id"]))
 
 
-def register_rows(register: dict) -> list[dict]:
+def register_rows(register: dict, release_version: str) -> list[dict]:
     rows = []
     for entry in register["entries"]:
         rows.append({
@@ -112,21 +161,21 @@ def register_rows(register: dict) -> list[dict]:
                 if entry["form_constraints"] is not None
                 else None
             ),
-            "source_release_version": PACK_VERSION,
+            "source_release_version": release_version,
             "register_digest": register["register_digest"],
             "split": "train",
         })
     return sorted(rows, key=lambda row: row["slug"])
 
 
-def instruction_rows(parallel: list[dict], register: list[dict]) -> list[dict]:
+def instruction_rows(parallel: list[dict], register: list[dict], release_version: str) -> list[dict]:
     rows = []
     for pair in parallel:
         common = {
             "slug": pair["slug"],
             "source_example_id": pair["id"],
             "normative": pair["normative"],
-            "source_release_version": PACK_VERSION,
+            "source_release_version": release_version,
             "register_digest": pair["register_digest"],
             "split": "train",
         }
@@ -162,14 +211,14 @@ def instruction_rows(parallel: list[dict], register: list[dict]) -> list[dict]:
             "slug": entry["slug"],
             "source_example_id": None,
             "normative": True,
-            "source_release_version": PACK_VERSION,
+            "source_release_version": release_version,
             "register_digest": entry["register_digest"],
             "split": "train",
         })
     return sorted(rows, key=lambda row: row["id"])
 
 
-def pretrain_rows(parallel: list[dict], register: list[dict]) -> list[dict]:
+def pretrain_rows(parallel: list[dict], register: list[dict], context: BuildContext) -> list[dict]:
     by_slug: dict[str, list[dict]] = {}
     for pair in parallel:
         by_slug.setdefault(pair["slug"], []).append(pair)
@@ -178,7 +227,7 @@ def pretrain_rows(parallel: list[dict], register: list[dict]) -> list[dict]:
         sections = [
             f"Ainglish registered construct: {entry['title']}",
             f"Registered form: {entry['form']}",
-            f"Status: ratified; source release {PACK_VERSION}.",
+            f"Status: ratified; source release {context.release_version}.",
             "Careful-English definition:\n" + entry["english_mapping"],
         ]
         pairs = by_slug.get(entry["slug"], [])
@@ -192,7 +241,7 @@ def pretrain_rows(parallel: list[dict], register: list[dict]) -> list[dict]:
                 ])
             sections.append("\n".join(lines))
         rows.append({
-            "id": f"ainglish-v{PACK_VERSION}/{entry['slug']}",
+            "id": f"ainglish-v{context.release_version}/{entry['slug']}",
             "text": "\n\n".join(sections),
             "source": "ainglish",
             "created": entry["ratified_at"],
@@ -200,7 +249,7 @@ def pretrain_rows(parallel: list[dict], register: list[dict]) -> list[dict]:
                 "content_digest": entry["content_digest"],
                 "license": "CC0-1.0",
                 "register_digest": entry["register_digest"],
-                "release_version": PACK_VERSION,
+                "release_version": context.release_version,
                 "slug": entry["slug"],
                 "url": f"https://ainglish.org/register/{entry['slug']}",
             },
@@ -238,8 +287,8 @@ def write_dolma(path: pathlib.Path, rows: list[dict]) -> None:
             compressed.write(payload)
 
 
-def croissant_metadata(files: dict[str, str]) -> dict:
-    context = {
+def croissant_metadata(files: dict[str, str], context: BuildContext) -> dict:
+    jsonld_context = {
         "@language": "en",
         "@vocab": "https://schema.org/",
         "arrayShape": "cr:arrayShape",
@@ -321,7 +370,7 @@ def croissant_metadata(files: dict[str, str]) -> dict:
             "@type": "cr:FileObject",
             "@id": file_id,
             "name": path,
-            "contentUrl": f"{BASE_URL}/{path}",
+            "contentUrl": f"{context.base_url}/{path}",
             "encodingFormat": "application/vnd.apache.parquet",
             "sha256": files[path],
         })
@@ -343,18 +392,18 @@ def croissant_metadata(files: dict[str, str]) -> dict:
             ],
         })
     return {
-        "@context": context,
+        "@context": jsonld_context,
         "@type": "sc:Dataset",
         "conformsTo": "http://mlcommons.org/croissant/1.1",
-        "name": f"Ainglish training pack v{PACK_VERSION}",
+        "name": f"Ainglish training pack v{context.release_version}",
         "description": (
-            "Train-only, ingestion-ready projections of the frozen Ainglish v0.35.0 public-domain "
+            f"Train-only, ingestion-ready projections of the frozen Ainglish v{context.register_version} public-domain "
             "register and its reviewed usage pairs. No measurement or evaluation answers are included."
         ),
-        "url": f"{BASE_URL}/",
-        "version": PACK_VERSION,
-        "datePublished": GENERATED_AT[:10],
-        "citeAs": f"Ainglish training pack v{PACK_VERSION}, Starsol Ltd (2026)",
+        "url": f"{context.base_url}/",
+        "version": context.release_version,
+        "datePublished": context.generated_at[:10],
+        "citeAs": f"Ainglish training pack v{context.release_version}, Starsol Ltd ({context.generated_at[:4]})",
         "license": "https://creativecommons.org/publicdomain/zero/1.0/",
         "creator": {"@type": "Organization", "name": "Starsol Ltd", "url": "https://ainglish.org"},
         "keywords": ["Ainglish", "agent communication", "controlled language", "English", "CC0"],
@@ -363,12 +412,15 @@ def croissant_metadata(files: dict[str, str]) -> dict:
     }
 
 
-def readme(manifest: dict) -> str:
+def readme(manifest: dict, context: BuildContext) -> str:
     counts = manifest["counts"]
-    return f"""# Ainglish training pack v{PACK_VERSION}
+    source_verification = "" if context.legacy_versioning else (
+        " " + "\\" + f"\n  --source ainglish-core-v{context.release_version}"
+    )
+    return f"""# Ainglish training pack v{context.release_version}
 
 This is an ingestion-ready, **train-only** companion to the frozen
-[`ainglish-core-v{PACK_VERSION}`](../ainglish-core-v{PACK_VERSION}/) language release. It projects
+[`ainglish-core-v{context.release_version}`](../ainglish-core-v{context.release_version}/) language release. It projects
 the same {counts['constructs']} ratified constructs and {counts['parallel']} reviewed usage pairs
 into common training-data shapes without changing their language content.
 
@@ -412,8 +464,8 @@ with gzip.open("data/dolma/documents.jsonl.gz", "rt", encoding="utf-8") as sourc
 Verify the complete pack from the repository root:
 
 ```sh
-python3 tools/verify_training_pack.py ainglish-training-v{PACK_VERSION}
-python3 tools/validate_training_loaders.py ainglish-training-v{PACK_VERSION}
+python3 tools/verify_training_pack.py ainglish-training-v{context.release_version}{source_verification}
+python3 tools/validate_training_loaders.py ainglish-training-v{context.release_version}
 ```
 
 The authoritative identity is source register digest
@@ -422,9 +474,9 @@ per-file SHA-256 values make later ingestion and deduplication auditable.
 """
 
 
-def datasheet(manifest: dict) -> str:
+def datasheet(manifest: dict, context: BuildContext) -> str:
     counts = manifest["counts"]
-    return f"""# Datasheet: Ainglish training pack v{PACK_VERSION}
+    return f"""# Datasheet: Ainglish training pack v{context.release_version}
 
 ## Motivation
 
@@ -442,7 +494,7 @@ no validation or test split.
 
 ## Collection and provenance
 
-Every language row comes from the frozen `ainglish-core-v{PACK_VERSION}` bundle. The source bundle
+Every language row comes from the frozen `ainglish-core-v{context.release_version}` bundle. The source bundle
 is bound by its `MANIFEST.json`, `SHA256SUMS`, register digest, content digests, release versions,
 ratification timestamps, and recorded rights basis. No web crawl, model generation, personal
 conversation, or post-release augmentation was added while building this pack.
@@ -487,14 +539,34 @@ https://github.com/ai-nglish/ainglish-releases
 """
 
 
-def build(source: pathlib.Path, output: pathlib.Path) -> dict:
+def build(source: pathlib.Path, output: pathlib.Path, generated_at: str) -> dict:
     if output.exists():
         raise FileExistsError(f"refusing to replace existing output: {output}")
-    source_manifest, register_source, examples_source = verify_source_bundle(source)
-    register = register_rows(register_source)
-    parallel = parallel_rows(examples_source, register_source["register_digest"])
-    instructions = instruction_rows(parallel, register)
-    pretrain = pretrain_rows(parallel, register)
+    (
+        source_manifest,
+        register_source,
+        examples_source,
+        release_version,
+        register_version,
+        legacy_versioning,
+    ) = verify_source_bundle(source)
+    context = BuildContext(
+        release_version=release_version,
+        register_version=register_version,
+        generated_at=valid_generated_at(generated_at),
+        source_bundle=source.name,
+        legacy_versioning=legacy_versioning,
+    )
+    if output.name != f"ainglish-training-v{context.release_version}":
+        raise ValueError("output directory name disagrees with source release version")
+    register = register_rows(register_source, context.release_version)
+    parallel = parallel_rows(
+        examples_source,
+        register_source["register_digest"],
+        context.release_version,
+    )
+    instructions = instruction_rows(parallel, register, context.release_version)
+    pretrain = pretrain_rows(parallel, register, context)
 
     output.mkdir(parents=True)
     shutil.copyfile(source / "LICENSE-CC0-1.0.txt", output / "LICENSE-CC0-1.0.txt")
@@ -516,18 +588,18 @@ def build(source: pathlib.Path, output: pathlib.Path) -> dict:
         f"data/parquet/{name}.parquet": sha256(output / f"data/parquet/{name}.parquet")
         for name in parquet
     }
-    write_json(output / "metadata/croissant.json", croissant_metadata(parquet_hashes))
+    write_json(output / "metadata/croissant.json", croissant_metadata(parquet_hashes, context))
 
     manifest = {
         "kind": PACK_KIND,
-        "version": PACK_VERSION,
-        "generated_at": GENERATED_AT,
+        "version": context.release_version,
+        "generated_at": context.generated_at,
         "license": "CC0-1.0",
         "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
         "publisher": source_manifest["publisher"],
         "scope": "train-only-projection-of-frozen-language-release",
         "source": {
-            "bundle": f"ainglish-core-v{PACK_VERSION}",
+            "bundle": context.source_bundle,
             "manifest_sha256": sha256(source / "MANIFEST.json"),
             "register_sha256": sha256(source / "register.json"),
             "examples_sha256": sha256(source / "examples.json"),
@@ -554,8 +626,11 @@ def build(source: pathlib.Path, output: pathlib.Path) -> dict:
         ],
         "formats": ["JSONL", "Apache Parquet", "Dolma JSONL gzip", "MLCommons Croissant 1.1"],
     }
-    (output / "README.md").write_text(readme(manifest), encoding="utf-8")
-    (output / "DATASHEET.md").write_text(datasheet(manifest), encoding="utf-8")
+    if not context.legacy_versioning:
+        manifest["register_version"] = context.register_version
+        manifest["source"]["register_version"] = context.register_version
+    (output / "README.md").write_text(readme(manifest, context), encoding="utf-8")
+    (output / "DATASHEET.md").write_text(datasheet(manifest, context), encoding="utf-8")
 
     payload_files = {}
     for path in sorted(file for file in output.rglob("*") if file.is_file()):
@@ -586,19 +661,32 @@ def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("source", type=pathlib.Path)
     parser.add_argument("output", type=pathlib.Path)
+    parser.add_argument(
+        "--generated-at",
+        help=(
+            "canonical UTC pack-generation timestamp (YYYY-MM-DDTHH:MM:SSZ); required for a "
+            "new build and inferred from the existing pack manifest during --check"
+        ),
+    )
     parser.add_argument("--check", action="store_true")
     args = parser.parse_args(argv)
     if args.check:
         if not args.output.is_dir():
             raise FileNotFoundError(args.output)
+        existing_manifest = json.loads((args.output / "MANIFEST.json").read_text(encoding="utf-8"))
+        generated_at = valid_generated_at(args.generated_at or existing_manifest.get("generated_at"))
+        if args.generated_at and existing_manifest.get("generated_at") != generated_at:
+            raise ValueError("--generated-at disagrees with the existing pack manifest")
         with tempfile.TemporaryDirectory() as tmp:
             rebuilt = pathlib.Path(tmp) / args.output.name
-            build(args.source, rebuilt)
+            manifest = build(args.source, rebuilt, generated_at)
             compare(args.output, rebuilt)
-        print(canonical_json({"status": "reproducible", "version": PACK_VERSION}))
+        print(canonical_json({"status": "reproducible", "version": manifest["version"]}))
     else:
-        manifest = build(args.source, args.output)
-        print(canonical_json({"counts": manifest["counts"], "status": "built", "version": PACK_VERSION}))
+        if args.generated_at is None:
+            parser.error("--generated-at is required when building a new pack")
+        manifest = build(args.source, args.output, args.generated_at)
+        print(canonical_json({"counts": manifest["counts"], "status": "built", "version": manifest["version"]}))
     return 0
 
 

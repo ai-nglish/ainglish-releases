@@ -36,6 +36,8 @@ def verify(pack: pathlib.Path, source: pathlib.Path | None = None) -> dict:
     manifest = json.loads((pack / "MANIFEST.json").read_text(encoding="utf-8"))
     if manifest["kind"] != "ainglish.language.training-pack" or manifest["splits"] != ["train"]:
         raise ValueError("unexpected pack identity or split policy")
+    if pack.name != f"ainglish-training-v{manifest['version']}":
+        raise ValueError("pack directory name disagrees with its manifest")
     for name, identity in manifest["files"].items():
         path = pack / name
         if not path.is_file() or sha256(path) != identity["sha256"] or path.stat().st_size != identity["bytes"]:
@@ -86,9 +88,20 @@ def verify(pack: pathlib.Path, source: pathlib.Path | None = None) -> dict:
             raise ValueError("source manifest bytes do not match the pack")
         if source_manifest["register_digest"] != source_digest:
             raise ValueError("source register digest does not match the pack")
+        if source_manifest["version"] != manifest["version"]:
+            raise ValueError("source release version does not match the pack")
+        if source.name != manifest["source"]["bundle"]:
+            raise ValueError("source bundle name does not match the pack")
+        source_register_version = source_manifest.get("register_version", source_manifest["version"])
+        pack_register_version = manifest.get("register_version", manifest["version"])
+        if source_register_version != pack_register_version:
+            raise ValueError("source register version does not match the pack")
+        if manifest["source"].get("register_version", pack_register_version) != pack_register_version:
+            raise ValueError("pack source register-version pointer disagrees")
 
     return {
         "version": manifest["version"],
+        "register_version": manifest.get("register_version", manifest["version"]),
         "files": len(sums),
         "counts": manifest["counts"],
         "source_register_digest": source_digest,

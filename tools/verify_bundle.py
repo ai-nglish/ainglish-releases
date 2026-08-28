@@ -40,15 +40,16 @@ def verify(bundle):
     if digest != reference["sha256"] or digest != sums["AGENT-REFERENCE.md"]:
         raise ValueError("agent reference digest mismatch")
     text = data.decode("utf-8")
+    register_version = manifest.get("register_version", manifest["version"])
     expected = (
         "> Format: `%s`" % FORMAT,
-        "> Register version: `%s`" % manifest["version"],
+        "> Register version: `%s`" % register_version,
         "> Register SHA-256: `%s`" % manifest["register_digest"],
     )
     for marker in expected:
         if marker not in text.splitlines():
             raise ValueError("agent reference identity disagrees with MANIFEST.json")
-    return {"version": manifest["version"], "files": len(sums),
+    return {"version": manifest["version"], "register_version": register_version, "files": len(sums),
             "agent_reference": "verified", "agent_reference_sha256": digest}
 
 

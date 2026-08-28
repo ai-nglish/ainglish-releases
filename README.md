@@ -32,6 +32,22 @@ pack supplies JSONL, Apache Parquet, Dolma JSONL gzip, and MLCommons Croissant m
 adding synthetic language content or evaluation answers. See its
 [`DATASHEET.md`](ainglish-training-v0.35.0/DATASHEET.md) for provenance and limitations.
 
+For sequence-numbered releases, the builder derives the bundle version from the core manifest and
+keeps it distinct from the snapshotted register version. A new build requires an explicit UTC
+generation timestamp; reproducibility mode reads that frozen value back from the built manifest:
+
+```sh
+python3 tools/build_training_pack.py ainglish-core-v3 ainglish-training-v3 \
+  --generated-at 2026-09-02T03:04:05Z
+python3 tools/build_training_pack.py ainglish-core-v3 ainglish-training-v3 --check
+python3 tools/verify_training_pack.py ainglish-training-v3 --source ainglish-core-v3
+```
+
+The builder refuses a partial migration: `MANIFEST.json.register_version`,
+`register.json.version`, and `examples.json.version` must agree, while both source data files must
+point back to `MANIFEST.json.version` through `release_version`. Legacy releases remain exactly
+reproducible under their original shared-version contract.
+
 The [`deposits/`](deposits/) directory carries a deterministic single-file upload plus prepared
 Mozilla Data Collective and CLARIN/VLO metadata for a legal human representative to submit.
 
