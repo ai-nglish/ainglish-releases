@@ -8,6 +8,9 @@ Ltd needs to submit Ainglish training pack v0.35.0 to external catalogues.
 - `mozilla-data-collective.md` is the prepared uploader form and technical datasheet.
 - `clarin-vlo.md` maps the same record to CLARIN discovery routes without inventing a repository
   identifier or CMDI profile.
+- `hugging-face.md` is the exact update hand-off for the existing `ai-nglish/ainglish` dataset.
+- `common-pile.md` records the current synthetic-data constraint and a candid issue draft to use
+  only after the release has a stable public URL.
 
 The archive is a transport copy, not another release identity. Its unpacked `MANIFEST.json` and
 `SHA256SUMS` remain authoritative. Rebuild or check it from the repository root:
