@@ -1,0 +1,42 @@
+{
+  "baseline": {
+    "bundle": "ainglish-core-v0.35.0",
+    "language_entries": 19,
+    "register_digest": "ee8978f9ab5adb252aa244dc1a0dbb5abaa81f499758ec18c95caf5dcfa863b8",
+    "register_version": "0.35.0",
+    "release_version": "0.35.0"
+  },
+  "captured_at": "2026-08-29T13:11:44Z",
+  "decision": "wait_same_register_no_language_delta",
+  "delta": {
+    "added_language_slugs": [],
+    "changed_language_entries": [],
+    "removed_language_slugs": []
+  },
+  "kind": "ainglish.language.next-release-readiness.v1",
+  "live": {
+    "all_ratified_entries": 35,
+    "language_entries": 19,
+    "protocol_entries_excluded": 16,
+    "register_digest": "ee8978f9ab5adb252aa244dc1a0dbb5abaa81f499758ec18c95caf5dcfa863b8",
+    "register_version": "0.35.0",
+    "source": "https://ainglish.org/api/v1/register.json"
+  },
+  "next_release": {
+    "core_bundle": "ainglish-core-v3",
+    "sequence": "3",
+    "training_pack": "ainglish-training-v3"
+  },
+  "publication_ready": false,
+  "ready_for_core_compilation": false,
+  "required_next_gates": [
+    "wait for at least one visible ratified language addition, removal, or immutable-entry change"
+  ],
+  "scope_policy": {
+    "evaluation_data": "excluded",
+    "normative": "current visible ratified non-protocol language only",
+    "private_or_identity_data": "excluded",
+    "research_candidates": "excluded from the core and training pack; publish lifecycle-labelled research catalogues separately"
+  },
+  "sha256": "36734d30ed9b4ed5768374fb92f90679c0ae02b4c3c460759c6185e5e143d1d9"
+}
