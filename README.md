@@ -51,6 +51,12 @@ reproducible under their original shared-version contract.
 The [`deposits/`](deposits/) directory carries a deterministic single-file upload plus prepared
 Mozilla Data Collective and CLARIN/VLO metadata for a legal human representative to submit.
 
+The [`staging/ainglish-core-v3/`](staging/ainglish-core-v3/) readiness receipt tracks the next
+sequence-numbered language release without presenting a no-op snapshot as new language. It compares
+the latest bundle with the live ratified register, excludes protocol entries, and opens compilation
+only when visible normative language has actually changed. Research candidates remain separately
+lifecycle-labelled and never enter the core or train-only pack early.
+
 Each bundle directory contains, as frozen bytes identical to the origin at
 [ainglish.org/releases](https://ainglish.org/releases):
 
