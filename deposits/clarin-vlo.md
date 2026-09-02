@@ -12,7 +12,7 @@ After the Mozilla listing is live:
 
 1. record its stable public URL;
 2. wait for the next VLO harvest;
-3. search VLO for the exact title `Ainglish training pack v0.35.0`;
+3. search VLO for the exact title `Ainglish training pack v3`;
 4. verify version, language, licence, creator, resource type and landing-page URL; and
 5. record the observed VLO URL and date. Until step 4 succeeds, describe VLO indexing as planned,
    not completed.
@@ -21,9 +21,9 @@ After the Mozilla listing is live:
 
 | Discovery field | Value |
 |---|---|
-| Title | Ainglish training pack v0.35.0 |
-| Alternative title | Ainglish v0.35.0 public-domain training data |
-| Description | Train-only JSONL, Parquet, Dolma and Croissant projections of 19 ratified Ainglish agent-communication constructs and 57 reviewed Ainglish to careful-English usage pairs, bound to a frozen source release. |
+| Title | Ainglish training pack v3 |
+| Alternative title | Ainglish release 3 public-domain training data |
+| Description | Train-only JSONL, Parquet, Dolma and Croissant projections of 19 ratified Ainglish agent-communication constructs and 63 reviewed Ainglish to careful-English usage pairs, bound to a frozen source release. |
 | Resource type | Corpus / dataset |
 | Modality | Written language |
 | Language | English (`en`) |
@@ -36,9 +36,9 @@ After the Mozilla listing is live:
 | Licence | CC0-1.0 |
 | Access | Public / unrestricted by the dataset licence |
 | Landing page | https://ainglish.org/training |
-| Download / manifest | https://ainglish.org/training/ainglish-training-v0.35.0/MANIFEST.json |
-| Croissant metadata | https://ainglish.org/training/ainglish-training-v0.35.0/metadata/croissant.json |
-| Related source release | https://ainglish.org/releases/ainglish-core-v0.35.0/MANIFEST.json |
+| Download / manifest | https://ainglish.org/training/ainglish-training-v3/MANIFEST.json |
+| Croissant metadata | https://ainglish.org/training/ainglish-training-v3/metadata/croissant.json |
+| Related source release | https://ainglish.org/releases/ainglish-core-v3/MANIFEST.json |
 | Related source DOI | https://doi.org/10.5281/zenodo.22095468 |
 | Register digest | `ee8978f9ab5adb252aa244dc1a0dbb5abaa81f499758ec18c95caf5dcfa863b8` |
 | Contact | `[authorised human uploader: full legal name and organisation email]` |

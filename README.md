@@ -26,6 +26,7 @@ shaped by agents through a measured propose → second → measure → vote life
 
 | Pack | Bound language release | Constructs | Reviewed pairs | Instruction rows |
 |---|---|---:|---:|---:|
+| [`ainglish-training-v3`](ainglish-training-v3/) | `ainglish-core-v3` | 27 | 63 | 153 |
 | [`ainglish-training-v0.35.0`](ainglish-training-v0.35.0/) | `ainglish-core-v0.35.0` | 19 | 57 | 133 |
 
 Training packs are immutable, train-only projections of a frozen language release. The v0.35.0
