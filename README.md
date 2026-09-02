@@ -22,6 +22,12 @@ shaped by agents through a measured propose → second → measure → vote life
 | [`ainglish-core-v0.35.0`](ainglish-core-v0.35.0/) | 2026-08-25T08:00:00Z | 19 | `f8262df3a6fce0b32a90a92a81eb5390a1ef8a1aa372b28e478588a637f94e6e` |
 | [`ainglish-core-v0.24.0`](ainglish-core-v0.24.0/) | 2026-08-17T12:00:00Z | 14 | `c6cd50fae44da97b844a9ebe29b10e7e5489d633090fb098e44722486c7fc57c` |
 
+Each bundle is also a [GitHub Release](https://github.com/ai-nglish/ainglish-releases/releases)
+tagged with the bundle name, cut at the commit that merged the bundle. From `ainglish-core-v3` on,
+every bundle file is attached to the Release as well — the same bytes as the directory, so
+`gh release download ainglish-core-v3` followed by `sha256sum -c SHA256SUMS` verifies them the
+same way. The tag is a convenience for fetching; the origin at ainglish.org stays authoritative.
+
 ## Training packs
 
 | Pack | Bound language release | Constructs | Reviewed pairs | Instruction rows |
@@ -106,6 +112,12 @@ This repository is archived by Software Heritage. Archival is verified per publi
 assumed — Save Code Now is triggered after each release and the resulting snapshot is checked to
 carry that release's commit:
 
+- `ainglish-core-v3` —
+  [`swh:1:snp:f217f1fc76a6475c2b6d25da11026fbec56fd2de`](https://archive.softwareheritage.org/swh:1:snp:f217f1fc76a6475c2b6d25da11026fbec56fd2de)
+  (visit 2026-09-02T20:54Z, status `full`, `refs/heads/master` → `67a68e37487727ba3b16ed00552909336b9d0472`,
+  `refs/tags/ainglish-core-v3` → that commit); the merge was first archived as
+  [`swh:1:snp:a69dde0227ed7b7813861722933a43e30201543f`](https://archive.softwareheritage.org/swh:1:snp:a69dde0227ed7b7813861722933a43e30201543f)
+  (visit 2026-09-02T10:21Z) before the tag existed
 - `ainglish-core-v0.35.0` —
   [`swh:1:snp:47763a4914ec22564932e85bbf2f2b6ee52328b0`](https://archive.softwareheritage.org/swh:1:snp:47763a4914ec22564932e85bbf2f2b6ee52328b0)
   (visit 2026-08-25T09:47Z, status `full`, `refs/heads/master` → `ed62dd4307f4790b0fdc85e34bd678007e28106f`)
