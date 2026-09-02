@@ -13,9 +13,9 @@ full legal name and an organisation-associated email address in the account prof
 
 **What data do you want to share?**
 
-Ainglish training pack v0.35.0: a compact English-language dataset of 19 ratified constructs for
-clearer agent-to-agent communication, 57 reviewed Ainglish to careful-English usage pairs, 133
-deterministically derived instruction rows, and 19 self-contained pretraining documents. The pack
+Ainglish training pack v3: a compact English-language dataset of 27 ratified constructs for
+clearer agent-to-agent communication, 63 reviewed Ainglish to careful-English usage pairs, 153
+deterministically derived instruction rows, and 27 self-contained pretraining documents. The pack
 is source-bound to an immutable official language release and supplied as JSONL, Apache Parquet,
 Dolma-compatible compressed JSONL, and MLCommons Croissant metadata.
 
@@ -30,8 +30,8 @@ evidence that any model has adopted or understood Ainglish.
 
 | Field | Value to enter |
 |---|---|
-| Dataset name | Ainglish training pack v0.35.0 |
-| Short description | Train-only JSONL, Parquet, Dolma and Croissant projections of 19 ratified Ainglish agent-communication constructs and 57 reviewed Ainglish to careful-English usage pairs. |
+| Dataset name | Ainglish training pack v3 |
+| Short description | Train-only JSONL, Parquet, Dolma and Croissant projections of 19 ratified Ainglish agent-communication constructs and 63 reviewed Ainglish to careful-English usage pairs. |
 | Task | Select the closest available text-generation and machine-translation or text-to-text tasks; do not select evaluation-only. |
 | Locale / language | `en` |
 | Main format | `JSONL, PARQUET` |
@@ -47,9 +47,9 @@ evidence that any model has adopted or understood Ainglish.
 | Point of contact | `[authorised human uploader: full legal name and organisation email]` |
 | Legal contact | `[authorised Starsol Ltd contact: full legal name and organisation email]` |
 | Source landing page | https://ainglish.org/training |
-| Source language release | https://ainglish.org/releases/ainglish-core-v0.35.0/MANIFEST.json |
+| Source language release | https://ainglish.org/releases/ainglish-core-v3/MANIFEST.json |
 | Source register digest | `ee8978f9ab5adb252aa244dc1a0dbb5abaa81f499758ec18c95caf5dcfa863b8` |
-| Upload filename | `ainglish-training-v0.35.0.tar.gz` |
+| Upload filename | `ainglish-training-v3.tar.gz` |
 | Upload SHA-256 | See `deposits/SHA256SUMS`; verify again immediately before upload. |
 
 If the form offers only one task, choose the closest text-to-text or machine-translation category
@@ -61,7 +61,7 @@ human translation across two natural languages.
 ### What
 
 Ainglish is a developing dialect of written English that makes selected distinctions explicit for
-agent-to-agent communication. This dataset is a train-only projection of version 0.35.0 of the
+agent-to-agent communication. This dataset is a train-only projection of release 3 (register 0.47.0) of the
 official frozen language release. It contains:
 
 - 19 normalized rows describing current ratified constructs and their full careful-English mapping;
@@ -69,7 +69,7 @@ official frozen language release. It contains:
   non-normative training examples;
 - 133 instruction rows: both rewrite directions for every pair, plus one full-definition
   explanation task per construct;
-- 19 self-contained pretraining documents, also provided as one Dolma-format gzip shard;
+- 27 self-contained pretraining documents, also provided as one Dolma-format gzip shard;
 - the same four logical tables as Apache Parquet; and
 - MLCommons Croissant 1.1 metadata, a manifest, a datasheet, license text, and checksums.
 
@@ -78,7 +78,7 @@ All logical dataset rows are in a train split. There is deliberately no validati
 ### Who, source and provenance
 
 Starsol Ltd publishes the pack for the Ainglish Project. Every language row is copied or
-deterministically projected from the immutable `ainglish-core-v0.35.0` bundle. The source manifest,
+deterministically projected from the immutable `ainglish-core-v3` bundle. The source manifest,
 register and examples files are identified by SHA-256 in the training-pack manifest. Each row also
 carries stable source IDs, release version, and register digest where applicable.
 
@@ -89,8 +89,8 @@ definition. No web crawl or model-generated augmentation was added while making 
 
 ### Where and when
 
-The source language release has cut-off 2026-08-25T08:00:00Z. This companion training pack was
-generated on 2026-08-28 and is versioned 0.35.0 to bind it to that source. The authoritative landing
+The source language release has cut-off 2026-09-02T08:00:00Z. This companion training pack was
+generated on 2026-09-02 and is versioned 3 to bind it to that source. The authoritative landing
 page is https://ainglish.org/training and the source-release repository is
 https://github.com/ai-nglish/ainglish-releases.
 
