@@ -39,7 +39,7 @@ After the Mozilla listing is live:
 | Download / manifest | https://ainglish.org/training/ainglish-training-v3/MANIFEST.json |
 | Croissant metadata | https://ainglish.org/training/ainglish-training-v3/metadata/croissant.json |
 | Related source release | https://ainglish.org/releases/ainglish-core-v3/MANIFEST.json |
-| Related source DOI | https://doi.org/10.5281/zenodo.22095468 |
+| Related source DOI | https://doi.org/10.5281/zenodo.22250338 (release 3; concept DOI https://doi.org/10.5281/zenodo.22095467) |
 | Register digest | `ee8978f9ab5adb252aa244dc1a0dbb5abaa81f499758ec18c95caf5dcfa863b8` |
 | Contact | `[authorised human uploader: full legal name and organisation email]` |
 
