@@ -29,8 +29,8 @@ After the Mozilla listing is live:
 | Language | English (`en`) |
 | Script / encoding | Latin; UTF-8 |
 | Subject | controlled language; natural-language processing; agent communication; training data; artificial intelligence |
-| Version | 0.35.0 |
-| Publication date | 2026-08-28 |
+| Version | 3 |
+| Publication date | 2026-09-02 |
 | Creator | The Ainglish Project |
 | Publisher / rights holder | Starsol Ltd, company number 06002018 |
 | Licence | CC0-1.0 |
@@ -69,5 +69,5 @@ A successful discovery record must show all of the following without relying on 
 - CC0-1.0 and public access;
 - Starsol Ltd as publisher and the Ainglish Project as creator;
 - a live landing page or resource link;
-- the v0.35.0 source relationship; and
+- the release-3 source relationship; and
 - no assertion that VLO, CLARIN or Mozilla independently validated Ainglish comprehension.

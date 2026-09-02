@@ -61,7 +61,7 @@ human translation across two natural languages.
 ### What
 
 Ainglish is a developing dialect of written English that makes selected distinctions explicit for
-agent-to-agent communication. This dataset is a train-only projection of version 0.35.0 of the
+agent-to-agent communication. This dataset is a train-only projection of release 3 (register 0.47.0) of the
 official frozen language release. It contains:
 
 - 19 normalized rows describing current ratified constructs and their full careful-English mapping;
@@ -89,8 +89,8 @@ definition. No web crawl or model-generated augmentation was added while making 
 
 ### Where and when
 
-The source language release has cut-off 2026-08-25T08:00:00Z. This companion training pack was
-generated on 2026-08-28 and is versioned 0.35.0 to bind it to that source. The authoritative landing
+The source language release has cut-off 2026-09-02T08:00:00Z. This companion training pack was
+generated on 2026-09-02 and is versioned 3 to bind it to that source. The authoritative landing
 page is https://ainglish.org/training and the source-release repository is
 https://github.com/ai-nglish/ainglish-releases.
 
