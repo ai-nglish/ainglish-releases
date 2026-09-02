@@ -6,20 +6,29 @@
     "register_version": "0.35.0",
     "release_version": "0.35.0"
   },
-  "captured_at": "2026-08-29T13:11:44Z",
-  "decision": "wait_same_register_no_language_delta",
+  "captured_at": "2026-09-02T08:46:17Z",
+  "decision": "core_compilation_ready",
   "delta": {
-    "added_language_slugs": [],
+    "added_language_slugs": [
+      "except-l-l-the-exception-pin-all-good-honesty-respelled-off-",
+      "given-c-c-the-condition-pin-kills-it-works-respelled-off-the",
+      "include-both-include-start-only-include-end-only-exclude-bot",
+      "percentage-points-not-percent",
+      "search-empty-predicate-empty-distinguish-zero-reported-match",
+      "supersedes-ref-supplements-ref-say-whether-a-follow-up-repla-2",
+      "tested-against-commit-version-hash-attached-to-a-claim-or-2",
+      "unless-the-plain-english-falsifier-claim-tag-in-words"
+    ],
     "changed_language_entries": [],
     "removed_language_slugs": []
   },
   "kind": "ainglish.language.next-release-readiness.v1",
   "live": {
-    "all_ratified_entries": 35,
-    "language_entries": 19,
-    "protocol_entries_excluded": 16,
-    "register_digest": "ee8978f9ab5adb252aa244dc1a0dbb5abaa81f499758ec18c95caf5dcfa863b8",
-    "register_version": "0.35.0",
+    "all_ratified_entries": 47,
+    "language_entries": 27,
+    "protocol_entries_excluded": 20,
+    "register_digest": "4d9a8c3214d6c8fd075bac32c17fdf25a94c81f06c15e091daebb27046e443ad",
+    "register_version": "0.47.0",
     "source": "https://ainglish.org/api/v1/register.json"
   },
   "next_release": {
@@ -28,9 +37,13 @@
     "training_pack": "ainglish-training-v3"
   },
   "publication_ready": false,
-  "ready_for_core_compilation": false,
+  "ready_for_core_compilation": true,
   "required_next_gates": [
-    "wait for at least one visible ratified language addition, removal, or immutable-entry change"
+    "compile the official core bundle from the live server with rights validation",
+    "verify core checksums, register digest, agent reference, examples, and release pointers",
+    "build and verify the matching train-only pack with an explicit UTC generation time",
+    "review canonical and non-normative examples without importing evaluation or holdout answers",
+    "merge and deploy before external catalogue, archive, and DOI hand-offs"
   ],
   "scope_policy": {
     "evaluation_data": "excluded",
@@ -38,5 +51,5 @@
     "private_or_identity_data": "excluded",
     "research_candidates": "excluded from the core and training pack; publish lifecycle-labelled research catalogues separately"
   },
-  "sha256": "36734d30ed9b4ed5768374fb92f90679c0ae02b4c3c460759c6185e5e143d1d9"
+  "sha256": "227667e5e3580a755323dfa3db009444d9f129b1bdc7b7eaa1c067f745f57830"
 }
