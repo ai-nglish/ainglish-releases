@@ -4,7 +4,7 @@
 from __future__ import annotations
 
 import argparse
-from datetime import datetime
+from datetime import datetime, timedelta
 import hashlib
 import json
 from pathlib import Path
@@ -24,6 +24,13 @@ def canonical_time(value: str) -> str:
     if parsed.strftime("%Y-%m-%dT%H:%M:%SZ") != value:
         raise ValueError("captured_at must use canonical UTC")
     return value
+
+
+def add_days(value: str, days: int) -> str:
+    canonical_time(value)
+    return (datetime.strptime(value, "%Y-%m-%dT%H:%M:%SZ") + timedelta(days=days)).strftime(
+        "%Y-%m-%dT%H:%M:%SZ"
+    )
 
 
 def read_live(path: Path | None, url: str) -> dict:
@@ -80,9 +87,22 @@ def compare(baseline: dict[str, dict], live: dict[str, dict]) -> tuple[list[str]
     return added, removed, changed
 
 
-def build_report(bundle: Path, live: dict, captured_at: str, next_sequence: int, source: str) -> dict:
+def build_report(
+    bundle: Path,
+    live: dict,
+    captured_at: str,
+    next_sequence: int,
+    source: str,
+    minimum_release_gap_days: int = 7,
+) -> dict:
     validate_live(live)
+    if minimum_release_gap_days < 1:
+        raise ValueError("minimum release gap must be positive")
     manifest, baseline = baseline_projection(bundle)
+    previous_released_at = canonical_time(manifest["generated_at"])
+    captured_at = canonical_time(captured_at)
+    earliest_ordinary_publication_at = add_days(previous_released_at, minimum_release_gap_days)
+    ordinary_cadence_gate_open = captured_at >= earliest_ordinary_publication_at
     current = language_projection(live["entries"])
     added, removed, changed = compare(baseline, current)
     delta = bool(added or removed or changed)
@@ -93,11 +113,13 @@ def build_report(bundle: Path, live: dict, captured_at: str, next_sequence: int,
         decision = "wait_no_visible_language_delta"
     elif not delta:
         decision = "wait_same_register_no_language_delta"
+    elif not ordinary_cadence_gate_open:
+        decision = "core_compilation_ready_waiting_cadence"
     else:
         decision = "core_compilation_ready"
     report = {
         "kind": "ainglish.language.next-release-readiness.v1",
-        "captured_at": canonical_time(captured_at),
+        "captured_at": captured_at,
         "next_release": {"sequence": str(next_sequence), "core_bundle": f"ainglish-core-v{next_sequence}", "training_pack": f"ainglish-training-v{next_sequence}"},
         "baseline": {
             "bundle": bundle.name,
@@ -118,8 +140,19 @@ def build_report(bundle: Path, live: dict, captured_at: str, next_sequence: int,
         "decision": decision,
         "ready_for_core_compilation": delta,
         "publication_ready": False,
+        "release_cadence": {
+            "minimum_gap_days": minimum_release_gap_days,
+            "previous_release_generated_at": previous_released_at,
+            "earliest_ordinary_publication_at": earliest_ordinary_publication_at,
+            "ordinary_cadence_gate_open": ordinary_cadence_gate_open,
+            "exception_policy": "publish earlier only for a documented exceptional circumstance",
+        },
         "required_next_gates": (
             [
+                *(
+                    [f"wait until {earliest_ordinary_publication_at} for an ordinary release, or document an exceptional circumstance"]
+                    if not ordinary_cadence_gate_open else []
+                ),
                 "compile the official core bundle from the live server with rights validation",
                 "verify core checksums, register digest, agent reference, examples, and release pointers",
                 "build and verify the matching train-only pack with an explicit UTC generation time",
@@ -146,6 +179,7 @@ def main() -> None:
     parser.add_argument("baseline_bundle", type=Path)
     parser.add_argument("--captured-at", required=True)
     parser.add_argument("--next-release-sequence", type=int, required=True)
+    parser.add_argument("--minimum-release-gap-days", type=int, default=7)
     parser.add_argument("--live-register", type=Path)
     parser.add_argument("--register-url", default="https://ainglish.org/api/v1/register.json")
     parser.add_argument("--output", type=Path)
@@ -154,7 +188,14 @@ def main() -> None:
         parser.error("--next-release-sequence must be positive")
     live = read_live(args.live_register, args.register_url)
     source = str(args.live_register) if args.live_register else args.register_url
-    report = build_report(args.baseline_bundle, live, args.captured_at, args.next_release_sequence, source)
+    report = build_report(
+        args.baseline_bundle,
+        live,
+        args.captured_at,
+        args.next_release_sequence,
+        source,
+        args.minimum_release_gap_days,
+    )
     rendered = json.dumps(report, ensure_ascii=False, sort_keys=True, indent=2) + "\n"
     if args.output:
         args.output.parent.mkdir(parents=True, exist_ok=True)

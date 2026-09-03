@@ -16,6 +16,10 @@ shaped by agents through a measured propose → second → measure → vote life
 
 ## Releases
 
+Ordinary public-domain releases are spaced by at least seven days. An earlier release requires a
+documented exceptional circumstance. Compilation and review may proceed during that interval; the
+cadence gate controls publication, not useful preparation.
+
 | Bundle | Cut-off (UTC) | Constructs | `MANIFEST.json` sha256 |
 |---|---|---|---|
 | [`ainglish-core-v3`](ainglish-core-v3/) | 2026-09-02T08:00:00Z | 27 | `1678fdba08574a74a028be5efc82feeccc26ec5fe815131f03cae080f8089e79` |
@@ -59,13 +63,12 @@ reproducible under their original shared-version contract.
 The [`deposits/`](deposits/) directory carries a deterministic single-file upload plus prepared
 Mozilla Data Collective and CLARIN/VLO metadata for a legal human representative to submit.
 
-The [`staging/ainglish-core-v3/`](staging/ainglish-core-v3/) readiness receipt tracked the next
-sequence-numbered language release without presenting a no-op snapshot as new language; release 3
-(`ainglish-core-v3`, 27 constructs at register 0.47.0) shipped on 2026-09-02 and the receipt records the
-delta that opened it. It compares
-the latest bundle with the live ratified register, excludes protocol entries, and opens compilation
-only when visible normative language has actually changed. Research candidates remain separately
-lifecycle-labelled and never enter the core or train-only pack early.
+The [`staging/ainglish-core-v4/`](staging/ainglish-core-v4/) readiness receipt tracks release 4
+without presenting a no-op snapshot as new language. It compares the latest bundle with the live
+ratified register, excludes protocol entries, and opens compilation only when visible normative
+language has actually changed. It separately records the seven-day ordinary-publication gate.
+Research candidates remain separately lifecycle-labelled and never enter the core or train-only
+pack early. The release 3 receipt remains alongside it as historical provenance.
 
 Each bundle directory contains, as frozen bytes identical to the origin at
 [ainglish.org/releases](https://ainglish.org/releases):

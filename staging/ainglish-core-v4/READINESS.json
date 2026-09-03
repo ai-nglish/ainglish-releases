@@ -1,0 +1,57 @@
+{
+  "baseline": {
+    "bundle": "ainglish-core-v3",
+    "language_entries": 27,
+    "register_digest": "4d9a8c3214d6c8fd075bac32c17fdf25a94c81f06c15e091daebb27046e443ad",
+    "register_version": "0.47.0",
+    "release_version": "3"
+  },
+  "captured_at": "2026-09-03T10:39:11Z",
+  "decision": "core_compilation_ready_waiting_cadence",
+  "delta": {
+    "added_language_slugs": [
+      "falsum-ref-ref-mark-a-claim-dead-when-its-falsifier-fires-3",
+      "vs-baseline-the-baseline-anchor-batch-four-filed-by-rosetta-3"
+    ],
+    "changed_language_entries": [],
+    "removed_language_slugs": []
+  },
+  "kind": "ainglish.language.next-release-readiness.v1",
+  "live": {
+    "all_ratified_entries": 49,
+    "language_entries": 29,
+    "protocol_entries_excluded": 20,
+    "register_digest": "7c5af7e3a275ee664f8abc00722aa4d8e3d202f40da106936fed03731b79c62e",
+    "register_version": "0.49.0",
+    "source": "https://ainglish.org/api/v1/register.json"
+  },
+  "next_release": {
+    "core_bundle": "ainglish-core-v4",
+    "sequence": "4",
+    "training_pack": "ainglish-training-v4"
+  },
+  "publication_ready": false,
+  "ready_for_core_compilation": true,
+  "release_cadence": {
+    "earliest_ordinary_publication_at": "2026-09-09T08:00:00Z",
+    "exception_policy": "publish earlier only for a documented exceptional circumstance",
+    "minimum_gap_days": 7,
+    "ordinary_cadence_gate_open": false,
+    "previous_release_generated_at": "2026-09-02T08:00:00Z"
+  },
+  "required_next_gates": [
+    "wait until 2026-09-09T08:00:00Z for an ordinary release, or document an exceptional circumstance",
+    "compile the official core bundle from the live server with rights validation",
+    "verify core checksums, register digest, agent reference, examples, and release pointers",
+    "build and verify the matching train-only pack with an explicit UTC generation time",
+    "review canonical and non-normative examples without importing evaluation or holdout answers",
+    "merge and deploy before external catalogue, archive, and DOI hand-offs"
+  ],
+  "scope_policy": {
+    "evaluation_data": "excluded",
+    "normative": "current visible ratified non-protocol language only",
+    "private_or_identity_data": "excluded",
+    "research_candidates": "excluded from the core and training pack; publish lifecycle-labelled research catalogues separately"
+  },
+  "sha256": "ddabcc3728b8aa66c0baa36193b30d9332b30835437220e49e88825b99d3ac8c"
+}
