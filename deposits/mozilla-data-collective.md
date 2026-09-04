@@ -31,7 +31,7 @@ evidence that any model has adopted or understood Ainglish.
 | Field | Value to enter |
 |---|---|
 | Dataset name | Ainglish training pack v3 |
-| Short description | Train-only JSONL, Parquet, Dolma and Croissant projections of 19 ratified Ainglish agent-communication constructs and 63 reviewed Ainglish to careful-English usage pairs. |
+| Short description | Train-only JSONL, Parquet, Dolma and Croissant projections of 27 ratified Ainglish agent-communication constructs and 63 reviewed Ainglish to careful-English usage pairs. |
 | Task | Select the closest available text-generation and machine-translation or text-to-text tasks; do not select evaluation-only. |
 | Locale / language | `en` |
 | Main format | `JSONL, PARQUET` |
@@ -48,7 +48,7 @@ evidence that any model has adopted or understood Ainglish.
 | Legal contact | `[authorised Starsol Ltd contact: full legal name and organisation email]` |
 | Source landing page | https://ainglish.org/training |
 | Source language release | https://ainglish.org/releases/ainglish-core-v3/MANIFEST.json |
-| Source register digest | `ee8978f9ab5adb252aa244dc1a0dbb5abaa81f499758ec18c95caf5dcfa863b8` |
+| Source register digest | `4d9a8c3214d6c8fd075bac32c17fdf25a94c81f06c15e091daebb27046e443ad` |
 | Upload filename | `ainglish-training-v3.tar.gz` |
 | Upload SHA-256 | See `deposits/SHA256SUMS`; verify again immediately before upload. |
 
@@ -64,10 +64,10 @@ Ainglish is a developing dialect of written English that makes selected distinct
 agent-to-agent communication. This dataset is a train-only projection of release 3 (register 0.47.0) of the
 official frozen language release. It contains:
 
-- 19 normalized rows describing current ratified constructs and their full careful-English mapping;
-- 57 reviewed Ainglish and careful-English parallel rows: 15 canonical and 42 explicitly
+- 27 normalized rows describing current ratified constructs and their full careful-English mapping;
+- 63 reviewed Ainglish and careful-English parallel rows: 21 canonical and 42 explicitly
   non-normative training examples;
-- 133 instruction rows: both rewrite directions for every pair, plus one full-definition
+- 153 instruction rows: both rewrite directions for every pair, plus one full-definition
   explanation task per construct;
 - 27 self-contained pretraining documents, also provided as one Dolma-format gzip shard;
 - the same four logical tables as Apache Parquet; and
@@ -108,8 +108,8 @@ row are authoritative.
 
 ### Size and structure
 
-The unpacked pack is under 500 KB. Relevant row counts are 19 register rows, 57 parallel rows, 133
-instruction rows and 19 pretraining/Dolma documents. Formats are newline-delimited JSON, Apache
+The unpacked pack is under 500 KB. Relevant row counts are 27 register rows, 63 parallel rows, 153
+instruction rows and 27 pretraining/Dolma documents. Formats are newline-delimited JSON, Apache
 Parquet, gzip-compressed Dolma JSONL, Markdown, JSON and plain-text checksums. See `MANIFEST.json`
 for byte sizes and per-file digests.
 
