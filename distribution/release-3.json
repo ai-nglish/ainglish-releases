@@ -1,7 +1,7 @@
 {
   "kind": "ainglish.distribution-ledger.v1",
   "release": "3",
-  "observed_at": "2026-09-04T16:30:00Z",
+  "observed_at": "2026-09-04T19:26:15Z",
   "principle": "A channel is complete only when its published bytes are checked against the frozen local SHA256SUMS. Catalogue discovery and downstream adoption are separate claims.",
   "artifacts": [
     {
