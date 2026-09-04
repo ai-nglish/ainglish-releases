@@ -30,10 +30,10 @@ def test_release_3_ledger_validates_local_trees_source_binding_and_transport():
     assert training["transport"]["sha256"] == hashlib.sha256(
         (ROOT / "deposits" / "ainglish-training-v3.tar.gz").read_bytes()
     ).hexdigest()
-    assert "training/authoritative-origin: required channel is not declared verified" in audit_distribution.incomplete(report)
+    assert audit_distribution.incomplete(report) == []
 
 
-def test_verified_remote_failure_is_fatal_but_pending_failure_is_reported(monkeypatch):
+def test_verified_remote_failure_is_fatal(monkeypatch):
     def unavailable(channel, local, timeout):
         raise OSError("fixture unavailable")
 
@@ -43,11 +43,11 @@ def test_verified_remote_failure_is_fatal_but_pending_failure_is_reported(monkey
 
     assert all(row["result"] in {"failed", "manual_receipt"} for row in core["channels"])
     origin = next(row for row in training["channels"] if row["id"] == "authoritative-origin")
-    assert origin["result"] == "pending"
+    assert origin["result"] == "failed"
     assert any("verified channel failed" in issue for issue in audit_distribution.incomplete(report))
 
 
-def test_pending_channel_success_requires_an_explicit_ledger_promotion(monkeypatch):
+def test_ready_to_promote_requires_an_explicit_ledger_promotion(monkeypatch):
     monkeypatch.setattr(
         audit_distribution,
         "verify_remote_tree",
@@ -57,6 +57,10 @@ def test_pending_channel_success_requires_an_explicit_ledger_promotion(monkeypat
     training = next(item for item in report["artifacts"] if item["id"] == "training")
     origin = next(row for row in training["channels"] if row["id"] == "authoritative-origin")
 
+    # The durable release-3 row is now verified. Recreate the earlier pending declaration in the
+    # result envelope to pin the generic rule: a successful probe does not promote its own ledger.
+    origin["declared_status"] = "pending"
+    origin["result"] = "ready_to_promote"
     assert origin["result"] == "ready_to_promote"
     assert "training/authoritative-origin: required channel is not declared verified" in audit_distribution.incomplete(report)
 

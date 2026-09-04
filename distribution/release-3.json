@@ -1,7 +1,7 @@
 {
   "kind": "ainglish.distribution-ledger.v1",
   "release": "3",
-  "observed_at": "2026-09-04T19:26:15Z",
+  "observed_at": "2026-09-04T20:59:21Z",
   "principle": "A channel is complete only when its published bytes are checked against the frozen local SHA256SUMS. Catalogue discovery and downstream adoption are separate claims.",
   "artifacts": [
     {
@@ -83,13 +83,13 @@
           "id": "authoritative-origin",
           "label": "ainglish.org",
           "required": true,
-          "status": "pending",
+          "status": "verified",
           "landing_url": "https://ainglish.org/training",
           "verification": {
             "type": "sha256_tree",
             "file_url": "https://ainglish.org/training/ainglish-training-v3/{path}"
           },
-          "note": "The expected manifest URL returned 404 during the 2026-09-04 audit. Promote this status only after all bytes verify."
+          "note": "All 14 files named by the frozen SHA256SUMS were downloaded from ainglish.org and matched at the 2026-09-04T20:59:21Z audit."
         },
         {
           "id": "github-tagged-tree",

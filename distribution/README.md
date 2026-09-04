@@ -44,9 +44,9 @@ after a conscious decision to publish that release. Record what was actually obs
 repositories to a commit where possible, and keep later releases in new ledger files rather than
 rewriting old receipts.
 
-## Current release-3 gap
+## Release-3 distribution status
 
-At the 2026-09-04 observation, the release-3 training pack was byte-verifiable on the tagged GitHub
-tree and a pinned Hugging Face commit, but its expected ainglish.org URL returned 404. The channel
-therefore remains `pending` and `--require-complete` fails. This is a deployment/distribution task;
-it does not call the already-published core release into question.
+At the 2026-09-04T20:59:21Z observation, every required automated release-3 channel passed its
+complete SHA256 tree audit. The release-3 training pack is byte-identical on ainglish.org, the
+tagged GitHub tree, and the pinned Hugging Face commit. Catalogue submission and downstream
+adoption remain separate work and are not implied by this distribution result.
