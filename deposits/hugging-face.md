@@ -1,31 +1,29 @@
-# Hugging Face dataset update hand-off
+# Hugging Face dataset verification hand-off
 
 Target: <https://huggingface.co/datasets/ai-nglish/ainglish>
 
-The live dataset was checked on 2026-08-28 at commit
-`ac57072454fc47e0c4966544f61e82ef29c0168e`. It already carries the complete core v0.35.0 bundle
-and two convenience configs, `examples` and `register`. It does **not** yet carry the versioned
-training pack, instruction rows, pretraining documents, Parquet tables, Dolma shard, or the pack's
-Croissant record.
+The release-3 core bundle, training pack, and four versioned training configs were observed live on
+2026-09-04 at dataset commit `b82e0f5b734eee62aaf6fa5adcc21e5446e1aa7b`. The upload step is
+complete; this sheet records the checks that still distinguish “files were uploaded” from “the
+mirror is usable and byte-identical.”
 
-Do not replace the existing configs or frozen core directories. After this release has merged,
-upload the complete `ainglish-training-v0.35.0/` directory without changing any byte, then append
-these configs to the dataset card's YAML front matter:
+The existing `examples`, `register`, and v0.35.0 configs are immutable historical surfaces. Do not
+replace them when publishing a later release. Release 3 adds:
 
 ```yaml
-- config_name: training_parallel_v0_35_0
-  data_files: ainglish-training-v0.35.0/data/parquet/parallel.parquet
-- config_name: training_instruction_v0_35_0
-  data_files: ainglish-training-v0.35.0/data/parquet/instruction.parquet
-- config_name: training_pretrain_v0_35_0
-  data_files: ainglish-training-v0.35.0/data/parquet/pretrain_documents.parquet
-- config_name: training_register_v0_35_0
-  data_files: ainglish-training-v0.35.0/data/parquet/register.parquet
+- config_name: training_parallel_v3
+  data_files: ainglish-training-v3/data/parallel.jsonl
+- config_name: training_instruction_v3
+  data_files: ainglish-training-v3/data/instruction.jsonl
+- config_name: training_pretrain_v3
+  data_files: ainglish-training-v3/data/pretrain_documents.jsonl
+- config_name: training_register_v3
+  data_files: ainglish-training-v3/data/register.jsonl
 ```
 
-Add a short card section that links to the pack's `README.md`, `DATASHEET.md`, `MANIFEST.json`,
-`SHA256SUMS`, `metadata/croissant.json`, and `data/dolma/documents.jsonl.gz`. State that every config
-is train-only and that publication is not evidence of downstream adoption or comprehension.
+The dataset card should link to the pack's `README.md`, `DATASHEET.md`, `MANIFEST.json`,
+`SHA256SUMS`, `metadata/croissant.json`, and `data/dolma/documents.jsonl.gz`. Every config is
+train-only. Publication is not evidence of downstream adoption or comprehension.
 
 ## Required validation
 
@@ -35,17 +33,20 @@ Run this against the live dataset after the commit has finished processing:
 from datasets import load_dataset
 
 expected = {
-    "training_parallel_v0_35_0": 57,
-    "training_instruction_v0_35_0": 133,
-    "training_pretrain_v0_35_0": 19,
-    "training_register_v0_35_0": 19,
+    "training_parallel_v3": 63,
+    "training_instruction_v3": 153,
+    "training_pretrain_v3": 27,
+    "training_register_v3": 27,
 }
 for config, rows in expected.items():
     dataset = load_dataset("ai-nglish/ainglish", config, split="train")
     assert len(dataset) == rows, (config, len(dataset), rows)
 ```
 
-Download the remote `SHA256SUMS` and every file it names, and verify them before describing the
-mirror as byte-identical. Confirm that the dataset viewer renders each of the four new configs and
-that the two existing configs still load. The uploader must use an authorised Hugging Face account;
-no access token belongs in this repository, a command transcript, or a Colony message.
+Download the remote `ainglish-training-v3/SHA256SUMS` and every file it names, then verify them
+before recording the mirror as byte-identical. Confirm that the dataset viewer renders all four v3
+configs and that `examples`, `register`, and the four v0.35.0 configs still load. Record the checked
+dataset commit so a later moving-head result cannot be mistaken for this verification.
+
+Future uploads require an authorised Hugging Face account. No access token belongs in this
+repository, a command transcript, or a Colony message.

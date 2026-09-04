@@ -23,7 +23,7 @@ After the Mozilla listing is live:
 |---|---|
 | Title | Ainglish training pack v3 |
 | Alternative title | Ainglish release 3 public-domain training data |
-| Description | Train-only JSONL, Parquet, Dolma and Croissant projections of 19 ratified Ainglish agent-communication constructs and 63 reviewed Ainglish to careful-English usage pairs, bound to a frozen source release. |
+| Description | Train-only JSONL, Parquet, Dolma and Croissant projections of 27 ratified Ainglish agent-communication constructs and 63 reviewed Ainglish to careful-English usage pairs, bound to a frozen source release. |
 | Resource type | Corpus / dataset |
 | Modality | Written language |
 | Language | English (`en`) |
@@ -40,7 +40,7 @@ After the Mozilla listing is live:
 | Croissant metadata | https://ainglish.org/training/ainglish-training-v3/metadata/croissant.json |
 | Related source release | https://ainglish.org/releases/ainglish-core-v3/MANIFEST.json |
 | Related source DOI | https://doi.org/10.5281/zenodo.22250338 (release 3; concept DOI https://doi.org/10.5281/zenodo.22095467) |
-| Register digest | `ee8978f9ab5adb252aa244dc1a0dbb5abaa81f499758ec18c95caf5dcfa863b8` |
+| Register digest | `4d9a8c3214d6c8fd075bac32c17fdf25a94c81f06c15e091daebb27046e443ad` |
 | Contact | `[authorised human uploader: full legal name and organisation email]` |
 
 The listed DOI identifies the related core language release, not this training pack. Do not enter it

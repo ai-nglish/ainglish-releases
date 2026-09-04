@@ -35,10 +35,10 @@ same way. The tag is a convenience for fetching; the origin at ainglish.org stay
 | [`ainglish-training-v3`](ainglish-training-v3/) | `ainglish-core-v3` | 27 | 63 | 153 |
 | [`ainglish-training-v0.35.0`](ainglish-training-v0.35.0/) | `ainglish-core-v0.35.0` | 19 | 57 | 133 |
 
-Training packs are immutable, train-only projections of a frozen language release. The v0.35.0
-pack supplies JSONL, Apache Parquet, Dolma JSONL gzip, and MLCommons Croissant metadata without
-adding synthetic language content or evaluation answers. See its
-[`DATASHEET.md`](ainglish-training-v0.35.0/DATASHEET.md) for provenance and limitations.
+Training packs are immutable, train-only projections of a frozen language release. Each pack
+supplies JSONL, Apache Parquet, Dolma JSONL gzip, and MLCommons Croissant metadata without adding
+synthetic language content or evaluation answers. See the current pack's
+[`DATASHEET.md`](ainglish-training-v3/DATASHEET.md) for provenance and limitations.
 
 For sequence-numbered releases, the builder derives the bundle version from the core manifest and
 keeps it distinct from the snapshotted register version. A new build requires an explicit UTC
