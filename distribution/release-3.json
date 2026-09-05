@@ -1,0 +1,142 @@
+{
+  "kind": "ainglish.distribution-ledger.v1",
+  "release": "3",
+  "observed_at": "2026-09-04T20:59:21Z",
+  "principle": "A channel is complete only when its published bytes are checked against the frozen local SHA256SUMS. Catalogue discovery and downstream adoption are separate claims.",
+  "artifacts": [
+    {
+      "id": "core",
+      "directory": "ainglish-core-v3",
+      "manifest_sha256": "1678fdba08574a74a028be5efc82feeccc26ec5fe815131f03cae080f8089e79",
+      "sha256sums_sha256": "8a09b56bbc0ddd85fd89ecf55f26c2a1d8f45782a7aabbc9bc0f6bf4ae3f7ea3",
+      "channels": [
+        {
+          "id": "authoritative-origin",
+          "label": "ainglish.org",
+          "required": true,
+          "status": "verified",
+          "landing_url": "https://ainglish.org/releases",
+          "verification": {
+            "type": "sha256_tree",
+            "file_url": "https://ainglish.org/releases/ainglish-core-v3/{path}"
+          }
+        },
+        {
+          "id": "github-release",
+          "label": "GitHub Release assets",
+          "required": true,
+          "status": "verified",
+          "landing_url": "https://github.com/ai-nglish/ainglish-releases/releases/tag/ainglish-core-v3",
+          "verification": {
+            "type": "sha256_tree",
+            "file_url": "https://github.com/ai-nglish/ainglish-releases/releases/download/ainglish-core-v3/{path}"
+          }
+        },
+        {
+          "id": "hugging-face",
+          "label": "Hugging Face frozen commit",
+          "required": false,
+          "status": "verified",
+          "landing_url": "https://huggingface.co/datasets/ai-nglish/ainglish/tree/b82e0f5b734eee62aaf6fa5adcc21e5446e1aa7b/ainglish-core-v3",
+          "verification": {
+            "type": "sha256_tree",
+            "file_url": "https://huggingface.co/datasets/ai-nglish/ainglish/resolve/b82e0f5b734eee62aaf6fa5adcc21e5446e1aa7b/ainglish-core-v3/{path}"
+          }
+        },
+        {
+          "id": "zenodo",
+          "label": "Zenodo version DOI",
+          "required": true,
+          "status": "verified",
+          "landing_url": "https://doi.org/10.5281/zenodo.22250338",
+          "verification": {
+            "type": "sha256_tree",
+            "file_url": "https://zenodo.org/api/records/22250338/files/{path}/content"
+          }
+        },
+        {
+          "id": "software-heritage",
+          "label": "Software Heritage snapshot",
+          "required": true,
+          "status": "verified",
+          "landing_url": "https://archive.softwareheritage.org/swh:1:snp:f217f1fc76a6475c2b6d25da11026fbec56fd2de/",
+          "verification": {
+            "type": "manual_receipt",
+            "observed_at": "2026-09-02T20:54:00Z",
+            "receipt": "refs/tags/ainglish-core-v3 points to 67a68e37487727ba3b16ed00552909336b9d0472"
+          }
+        }
+      ]
+    },
+    {
+      "id": "training",
+      "directory": "ainglish-training-v3",
+      "manifest_sha256": "b1031f56b308390de8f2a5eaa5c902c6bb62fea34cb9289dcaed7701a5c69b5c",
+      "sha256sums_sha256": "7bed3664992de1aa31772034b55f2962597121ea98763e762041ef2a3bc12e0a",
+      "source_artifact": "core",
+      "transport": {
+        "path": "deposits/ainglish-training-v3.tar.gz",
+        "sha256": "193b268ab01878c2324847141bd9f1cfdb469be8d1996e92aa90a2a280a84044"
+      },
+      "channels": [
+        {
+          "id": "authoritative-origin",
+          "label": "ainglish.org",
+          "required": true,
+          "status": "verified",
+          "landing_url": "https://ainglish.org/training",
+          "verification": {
+            "type": "sha256_tree",
+            "file_url": "https://ainglish.org/training/ainglish-training-v3/{path}"
+          },
+          "note": "All 14 files named by the frozen SHA256SUMS were downloaded from ainglish.org and matched at the 2026-09-04T20:59:21Z audit."
+        },
+        {
+          "id": "github-tagged-tree",
+          "label": "GitHub tagged repository tree",
+          "required": true,
+          "status": "verified",
+          "landing_url": "https://github.com/ai-nglish/ainglish-releases/tree/ainglish-core-v3/ainglish-training-v3",
+          "verification": {
+            "type": "sha256_tree",
+            "file_url": "https://raw.githubusercontent.com/ai-nglish/ainglish-releases/ainglish-core-v3/ainglish-training-v3/{path}"
+          }
+        },
+        {
+          "id": "hugging-face",
+          "label": "Hugging Face frozen commit",
+          "required": true,
+          "status": "verified",
+          "landing_url": "https://huggingface.co/datasets/ai-nglish/ainglish/tree/b82e0f5b734eee62aaf6fa5adcc21e5446e1aa7b/ainglish-training-v3",
+          "verification": {
+            "type": "sha256_tree",
+            "file_url": "https://huggingface.co/datasets/ai-nglish/ainglish/resolve/b82e0f5b734eee62aaf6fa5adcc21e5446e1aa7b/ainglish-training-v3/{path}"
+          }
+        }
+      ]
+    }
+  ],
+  "catalogues": [
+    {
+      "id": "mozilla-data-collective",
+      "artifact": "training",
+      "status": "pending_human_submission",
+      "required": false,
+      "handoff": "deposits/mozilla-data-collective.md"
+    },
+    {
+      "id": "clarin-vlo",
+      "artifact": "training",
+      "status": "blocked_on_mozilla_listing",
+      "required": false,
+      "handoff": "deposits/clarin-vlo.md"
+    },
+    {
+      "id": "common-pile",
+      "artifact": "training",
+      "status": "policy_gated",
+      "required": false,
+      "handoff": "deposits/common-pile.md"
+    }
+  ]
+}
