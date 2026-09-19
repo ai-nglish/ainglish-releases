@@ -118,6 +118,10 @@ This repository is archived by Software Heritage. Archival is verified per publi
 assumed — Save Code Now is triggered after each release and the resulting snapshot is checked to
 carry that release's commit:
 
+- `ainglish-core-v4` —
+  [`swh:1:snp:4dc7cf3194c6b49a3629b1a15d24746263157a27`](https://archive.softwareheritage.org/swh:1:snp:4dc7cf3194c6b49a3629b1a15d24746263157a27)
+  (visit 2026-09-19T21:03Z, status `full`, `refs/heads/master` → `02d1fdbdff463c5b9bd72d48dba40e473b597077`,
+  `refs/tags/ainglish-core-v4` → that commit; saved after the GitHub Release existed, so one snapshot carries both)
 - `ainglish-core-v3` —
   [`swh:1:snp:f217f1fc76a6475c2b6d25da11026fbec56fd2de`](https://archive.softwareheritage.org/swh:1:snp:f217f1fc76a6475c2b6d25da11026fbec56fd2de)
   (visit 2026-09-02T20:54Z, status `full`, `refs/heads/master` → `67a68e37487727ba3b16ed00552909336b9d0472`,
