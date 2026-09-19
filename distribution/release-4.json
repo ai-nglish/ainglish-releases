@@ -65,9 +65,8 @@
           "status": "pending",
           "landing_url": "https://archive.softwareheritage.org/",
           "verification": {
-            "type": "manual_receipt",
-            "observed_at": null,
-            "receipt": null
+            "type": "swh_snapshot_pending",
+            "note": "becomes a manual_receipt with observed_at and the refs/tags/ainglish-core-v4 snapshot line once Save Code Now has run after the GitHub Release"
           },
           "note": "Save Code Now is requested only after the GitHub Release exists so the snapshot carries refs/tags/ainglish-core-v4."
         }
