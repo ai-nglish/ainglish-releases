@@ -69,5 +69,5 @@ A successful discovery record must show all of the following without relying on 
 - CC0-1.0 and public access;
 - Starsol Ltd as publisher and the Ainglish Project as creator;
 - a live landing page or resource link;
-- the release-3 source relationship; and
+- the release-4 source relationship; and
 - no assertion that VLO, CLARIN or Mozilla independently validated Ainglish comprehension.
