@@ -2,6 +2,7 @@ import hashlib
 import importlib.util
 import json
 import sys
+from datetime import datetime, timedelta
 from pathlib import Path
 
 import pytest
@@ -77,3 +78,21 @@ def test_ledger_identity_is_bound_to_frozen_manifests():
         sums = ROOT / artifact["directory"] / "SHA256SUMS"
         assert hashlib.sha256(manifest.read_bytes()).hexdigest() == artifact["manifest_sha256"]
         assert hashlib.sha256(sums.read_bytes()).hexdigest() == artifact["sha256sums_sha256"]
+
+
+@pytest.mark.parametrize(
+    "ledger_path",
+    sorted((ROOT / "distribution").glob("release-*.json")),
+    ids=lambda path: path.stem,
+)
+def test_ledger_observation_does_not_predate_its_channel_receipts(ledger_path):
+    ledger = json.loads(ledger_path.read_text(encoding="utf-8"))
+    observed_at = datetime.fromisoformat(ledger["observed_at"].replace("Z", "+00:00"))
+    assert observed_at.utcoffset() == timedelta(0), "ledger observations must be explicit UTC"
+    for artifact in ledger["artifacts"]:
+        for channel in artifact["channels"]:
+            receipt_time = channel["verification"].get("observed_at")
+            if receipt_time:
+                receipt_at = datetime.fromisoformat(receipt_time.replace("Z", "+00:00"))
+                assert receipt_at.utcoffset() == timedelta(0), "channel observations must be explicit UTC"
+                assert observed_at >= receipt_at, f"{artifact['id']}/{channel['id']}: receipt postdates ledger observation"
