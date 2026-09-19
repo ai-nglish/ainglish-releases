@@ -13,9 +13,9 @@ full legal name and an organisation-associated email address in the account prof
 
 **What data do you want to share?**
 
-Ainglish training pack v3: a compact English-language dataset of 27 ratified constructs for
-clearer agent-to-agent communication, 63 reviewed Ainglish to careful-English usage pairs, 153
-deterministically derived instruction rows, and 27 self-contained pretraining documents. The pack
+Ainglish training pack v4: a compact English-language dataset of 32 ratified constructs for
+clearer agent-to-agent communication, 66 reviewed Ainglish to careful-English usage pairs, 164
+deterministically derived instruction rows, and 32 self-contained pretraining documents. The pack
 is source-bound to an immutable official language release and supplied as JSONL, Apache Parquet,
 Dolma-compatible compressed JSONL, and MLCommons Croissant metadata.
 
@@ -30,8 +30,8 @@ evidence that any model has adopted or understood Ainglish.
 
 | Field | Value to enter |
 |---|---|
-| Dataset name | Ainglish training pack v3 |
-| Short description | Train-only JSONL, Parquet, Dolma and Croissant projections of 27 ratified Ainglish agent-communication constructs and 63 reviewed Ainglish to careful-English usage pairs. |
+| Dataset name | Ainglish training pack v4 |
+| Short description | Train-only JSONL, Parquet, Dolma and Croissant projections of 32 ratified Ainglish agent-communication constructs and 66 reviewed Ainglish to careful-English usage pairs. |
 | Task | Select the closest available text-generation and machine-translation or text-to-text tasks; do not select evaluation-only. |
 | Locale / language | `en` |
 | Main format | `JSONL, PARQUET` |
@@ -47,9 +47,9 @@ evidence that any model has adopted or understood Ainglish.
 | Point of contact | `[authorised human uploader: full legal name and organisation email]` |
 | Legal contact | `[authorised Starsol Ltd contact: full legal name and organisation email]` |
 | Source landing page | https://ainglish.org/training |
-| Source language release | https://ainglish.org/releases/ainglish-core-v3/MANIFEST.json |
-| Source register digest | `4d9a8c3214d6c8fd075bac32c17fdf25a94c81f06c15e091daebb27046e443ad` |
-| Upload filename | `ainglish-training-v3.tar.gz` |
+| Source language release | https://ainglish.org/releases/ainglish-core-v4/MANIFEST.json |
+| Source register digest | `964ea4c3478be1755dcc6dfa82830131112c7ddd0262c30cc628af3f071d6489` |
+| Upload filename | `ainglish-training-v4.tar.gz` |
 | Upload SHA-256 | See `deposits/SHA256SUMS`; verify again immediately before upload. |
 
 If the form offers only one task, choose the closest text-to-text or machine-translation category
@@ -61,15 +61,15 @@ human translation across two natural languages.
 ### What
 
 Ainglish is a developing dialect of written English that makes selected distinctions explicit for
-agent-to-agent communication. This dataset is a train-only projection of release 3 (register 0.47.0) of the
+agent-to-agent communication. This dataset is a train-only projection of release 4 (register 0.53.0) of the
 official frozen language release. It contains:
 
-- 27 normalized rows describing current ratified constructs and their full careful-English mapping;
-- 63 reviewed Ainglish and careful-English parallel rows: 21 canonical and 42 explicitly
+- 32 normalized rows describing current ratified constructs and their full careful-English mapping;
+- 66 reviewed Ainglish and careful-English parallel rows: 24 canonical and 42 explicitly
   non-normative training examples;
-- 153 instruction rows: both rewrite directions for every pair, plus one full-definition
+- 164 instruction rows: both rewrite directions for every pair, plus one full-definition
   explanation task per construct;
-- 27 self-contained pretraining documents, also provided as one Dolma-format gzip shard;
+- 32 self-contained pretraining documents, also provided as one Dolma-format gzip shard;
 - the same four logical tables as Apache Parquet; and
 - MLCommons Croissant 1.1 metadata, a manifest, a datasheet, license text, and checksums.
 
@@ -78,7 +78,7 @@ All logical dataset rows are in a train split. There is deliberately no validati
 ### Who, source and provenance
 
 Starsol Ltd publishes the pack for the Ainglish Project. Every language row is copied or
-deterministically projected from the immutable `ainglish-core-v3` bundle. The source manifest,
+deterministically projected from the immutable `ainglish-core-v4` bundle. The source manifest,
 register and examples files are identified by SHA-256 in the training-pack manifest. Each row also
 carries stable source IDs, release version, and register digest where applicable.
 
@@ -89,8 +89,8 @@ definition. No web crawl or model-generated augmentation was added while making 
 
 ### Where and when
 
-The source language release has cut-off 2026-09-02T08:00:00Z. This companion training pack was
-generated on 2026-09-02 and is versioned 3 to bind it to that source. The authoritative landing
+The source language release has cut-off 2026-09-19T19:00:00Z. This companion training pack was
+generated on 2026-09-19 and is versioned 4 to bind it to that source. The authoritative landing
 page is https://ainglish.org/training and the source-release repository is
 https://github.com/ai-nglish/ainglish-releases.
 
@@ -108,8 +108,8 @@ row are authoritative.
 
 ### Size and structure
 
-The unpacked pack is under 500 KB. Relevant row counts are 27 register rows, 63 parallel rows, 153
-instruction rows and 27 pretraining/Dolma documents. Formats are newline-delimited JSON, Apache
+The unpacked pack is 578,008 bytes (about 565 KiB) across 15 files; the transport archive is 244,943 bytes. Relevant row counts are 32 register rows, 66 parallel rows, 164
+instruction rows and 32 pretraining/Dolma documents. Formats are newline-delimited JSON, Apache
 Parquet, gzip-compressed Dolma JSONL, Markdown, JSON and plain-text checksums. See `MANIFEST.json`
 for byte sizes and per-file digests.
 

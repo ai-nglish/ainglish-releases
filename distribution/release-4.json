@@ -1,0 +1,148 @@
+{
+  "kind": "ainglish.distribution-ledger.v1",
+  "release": "4",
+  "observed_at": "2026-09-19T20:50:20Z",
+  "principle": "A channel is complete only when its published bytes are checked against the frozen local SHA256SUMS. Catalogue discovery and downstream adoption are separate claims.",
+  "artifacts": [
+    {
+      "id": "core",
+      "directory": "ainglish-core-v4",
+      "manifest_sha256": "eeb4d677f20b265d8990e96790fd51396c66b8c4903f9d9bbb25c21e0383130a",
+      "sha256sums_sha256": "57f0809b7bf4c0e4b85b74b5eec4a455a0bb72369c498250856d183cba159277",
+      "channels": [
+        {
+          "id": "authoritative-origin",
+          "label": "ainglish.org",
+          "required": true,
+          "status": "verified",
+          "landing_url": "https://ainglish.org/releases",
+          "verification": {
+            "type": "sha256_tree",
+            "file_url": "https://ainglish.org/releases/ainglish-core-v4/{path}"
+          },
+          "note": "Every file named by SHA256SUMS re-downloaded from the origin and matched on 2026-09-19 after deploy 20260919-b; edge and origin bytes identical."
+        },
+        {
+          "id": "github-release",
+          "label": "GitHub Release",
+          "required": true,
+          "status": "pending",
+          "landing_url": "https://github.com/ai-nglish/ainglish-releases/releases/tag/ainglish-core-v4",
+          "verification": {
+            "type": "sha256_tree",
+            "file_url": "https://github.com/ai-nglish/ainglish-releases/releases/download/ainglish-core-v4/{path}"
+          },
+          "note": "Cut at the merge commit of PR #10 after merge; not yet cut."
+        },
+        {
+          "id": "hugging-face",
+          "label": "Hugging Face",
+          "required": false,
+          "status": "verified",
+          "landing_url": "https://huggingface.co/datasets/ai-nglish/ainglish/tree/578aa306f85883ff7d0719f06614665d370d4b82/ainglish-core-v4",
+          "verification": {
+            "type": "sha256_tree",
+            "file_url": "https://huggingface.co/datasets/ai-nglish/ainglish/resolve/578aa306f85883ff7d0719f06614665d370d4b82/ainglish-core-v4/{path}"
+          },
+          "note": "7 files verified against SHA256SUMS at that revision on 2026-09-19."
+        },
+        {
+          "id": "zenodo",
+          "label": "Zenodo",
+          "required": true,
+          "status": "verified",
+          "landing_url": "https://doi.org/10.5281/zenodo.22849320",
+          "verification": {
+            "type": "sha256_tree",
+            "file_url": "https://zenodo.org/api/records/22849320/files/{path}/content"
+          },
+          "note": "Eight files uploaded and md5-checked against the retained bundle before publish."
+        },
+        {
+          "id": "software-heritage",
+          "label": "Software Heritage",
+          "required": true,
+          "status": "pending",
+          "landing_url": "https://archive.softwareheritage.org/",
+          "verification": {
+            "type": "swh_snapshot_pending",
+            "note": "becomes a manual_receipt with observed_at and the refs/tags/ainglish-core-v4 snapshot line once Save Code Now has run after the GitHub Release"
+          },
+          "note": "Save Code Now is requested only after the GitHub Release exists so the snapshot carries refs/tags/ainglish-core-v4."
+        }
+      ]
+    },
+    {
+      "id": "training",
+      "directory": "ainglish-training-v4",
+      "manifest_sha256": "968eb51856dfb3fce9c28bd4e544022f0e85d208de40ee49f278ce351a4fade1",
+      "sha256sums_sha256": "6db63ce192b14bb11bc0b4fd8d000e063f2dc5812a7453f48e58aa56ec6c0616",
+      "source_artifact": "core",
+      "transport": {
+        "path": "deposits/ainglish-training-v4.tar.gz",
+        "sha256": "ccd8b65af8b3f3712630ea56fb69e347641876c24fb7f320ebf05604ceb50298"
+      },
+      "channels": [
+        {
+          "id": "authoritative-origin",
+          "label": "ainglish.org",
+          "required": true,
+          "status": "pending",
+          "landing_url": "https://ainglish.org/training",
+          "verification": {
+            "type": "sha256_tree",
+            "file_url": "https://ainglish.org/training/ainglish-training-v4/{path}"
+          },
+          "note": "NOT YET PUBLISHED at the origin as of this ledger (all 15 paths return 404; found in review of PR #10). Croissant distribution.contentUrl values point here, so remote record iteration fails until publication."
+        },
+        {
+          "id": "github-tagged-tree",
+          "label": "GitHub tagged tree",
+          "required": true,
+          "status": "pending",
+          "landing_url": "https://github.com/ai-nglish/ainglish-releases/tree/ainglish-core-v4/ainglish-training-v4",
+          "verification": {
+            "type": "sha256_tree",
+            "file_url": "https://raw.githubusercontent.com/ai-nglish/ainglish-releases/ainglish-core-v4/ainglish-training-v4/{path}"
+          },
+          "note": "Requires the ainglish-core-v4 tag."
+        },
+        {
+          "id": "hugging-face",
+          "label": "Hugging Face",
+          "required": true,
+          "status": "verified",
+          "landing_url": "https://huggingface.co/datasets/ai-nglish/ainglish/tree/578aa306f85883ff7d0719f06614665d370d4b82/ainglish-training-v4",
+          "verification": {
+            "type": "sha256_tree",
+            "file_url": "https://huggingface.co/datasets/ai-nglish/ainglish/resolve/578aa306f85883ff7d0719f06614665d370d4b82/ainglish-training-v4/{path}"
+          },
+          "note": "14 files verified against SHA256SUMS at that revision; all four v4 configs load."
+        }
+      ]
+    }
+  ],
+  "catalogues": [
+    {
+      "id": "mozilla-data-collective",
+      "artifact": "training",
+      "status": "pending_human_submission",
+      "required": false,
+      "handoff": "deposits/mozilla-data-collective.md"
+    },
+    {
+      "id": "clarin-vlo",
+      "artifact": "training",
+      "status": "blocked_on_mozilla_listing",
+      "required": false,
+      "handoff": "deposits/clarin-vlo.md"
+    },
+    {
+      "id": "common-pile",
+      "artifact": "training",
+      "status": "policy_gated",
+      "required": false,
+      "handoff": "deposits/common-pile.md"
+    }
+  ]
+}
