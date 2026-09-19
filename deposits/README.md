@@ -1,9 +1,9 @@
 # Deposit hand-off
 
 This directory contains the files and copy-paste metadata a legal human representative of Starsol
-Ltd needs to submit Ainglish training pack v3 to external catalogues.
+Ltd needs to submit Ainglish training pack v4 to external catalogues.
 
-- `ainglish-training-v3.tar.gz` is a deterministic single-file copy of the complete pack.
+- `ainglish-training-v4.tar.gz` is a deterministic single-file copy of the complete pack.
 - `SHA256SUMS` identifies the upload bytes.
 - `mozilla-data-collective.md` is the prepared uploader form and technical datasheet.
 - `clarin-vlo.md` maps the same record to CLARIN discovery routes without inventing a repository
@@ -17,8 +17,8 @@ The archive is a transport copy, not another release identity. Its unpacked `MAN
 
 ```sh
 python3 tools/build_training_archive.py \
-  ainglish-training-v3 \
-  deposits/ainglish-training-v3.tar.gz --check
+  ainglish-training-v4 \
+  deposits/ainglish-training-v4.tar.gz --check
 ```
 
 External submission must be performed by a legal owner using their own full legal identity. Before
