@@ -26,13 +26,13 @@
           "id": "github-release",
           "label": "GitHub Release",
           "required": true,
-          "status": "pending",
+          "status": "verified",
           "landing_url": "https://github.com/ai-nglish/ainglish-releases/releases/tag/ainglish-core-v4",
           "verification": {
             "type": "sha256_tree",
             "file_url": "https://github.com/ai-nglish/ainglish-releases/releases/download/ainglish-core-v4/{path}"
           },
-          "note": "Cut at the merge commit of PR #10 after merge; not yet cut."
+          "note": "Cut 2026-09-19T21:02:37Z at merge commit 02d1fdbdff463c5b9bd72d48dba40e473b597077 of PR #10; 8 assets re-downloaded via gh release download and sha256sum -c clean; listed as Latest. Online audit 2026-09-19 verified the tree."
         },
         {
           "id": "hugging-face",
@@ -62,11 +62,12 @@
           "id": "software-heritage",
           "label": "Software Heritage",
           "required": true,
-          "status": "pending",
-          "landing_url": "https://archive.softwareheritage.org/",
+          "status": "verified",
+          "landing_url": "https://archive.softwareheritage.org/swh:1:snp:4dc7cf3194c6b49a3629b1a15d24746263157a27/",
           "verification": {
-            "type": "swh_snapshot_pending",
-            "note": "becomes a manual_receipt with observed_at and the refs/tags/ainglish-core-v4 snapshot line once Save Code Now has run after the GitHub Release"
+            "type": "manual_receipt",
+            "observed_at": "2026-09-19T21:03:19Z",
+            "receipt": "save 2484654 (requested 2026-09-19T21:03:11Z after the GitHub Release existed) succeeded; snapshot swh:1:snp:4dc7cf3194c6b49a3629b1a15d24746263157a27 carries refs/tags/ainglish-core-v4 (release object 5a6164a6e61512077ccacfc4717b49caa50a565f) and refs/heads/master -> 02d1fdbdff463c5b9bd72d48dba40e473b597077"
           },
           "note": "Save Code Now is requested only after the GitHub Release exists so the snapshot carries refs/tags/ainglish-core-v4."
         }
@@ -87,25 +88,25 @@
           "id": "authoritative-origin",
           "label": "ainglish.org",
           "required": true,
-          "status": "pending",
+          "status": "verified",
           "landing_url": "https://ainglish.org/training",
           "verification": {
             "type": "sha256_tree",
             "file_url": "https://ainglish.org/training/ainglish-training-v4/{path}"
           },
-          "note": "NOT YET PUBLISHED at the origin as of this ledger (all 15 paths return 404; found in review of PR #10). Croissant distribution.contentUrl values point here, so remote record iteration fails until publication."
+          "note": "Published at the origin by register deploy 20260919-d (2026-09-19); all 14 files named by SHA256SUMS re-downloaded and matched; Link/Cache-Control/CORS headers at origin; edge==origin MANIFEST bytes. Online audit 2026-09-19 verified the tree."
         },
         {
           "id": "github-tagged-tree",
           "label": "GitHub tagged tree",
           "required": true,
-          "status": "pending",
+          "status": "verified",
           "landing_url": "https://github.com/ai-nglish/ainglish-releases/tree/ainglish-core-v4/ainglish-training-v4",
           "verification": {
             "type": "sha256_tree",
             "file_url": "https://raw.githubusercontent.com/ai-nglish/ainglish-releases/ainglish-core-v4/ainglish-training-v4/{path}"
           },
-          "note": "Requires the ainglish-core-v4 tag."
+          "note": "Tag ainglish-core-v4 at 02d1fdbd; online audit 2026-09-19 verified the raw tree."
         },
         {
           "id": "hugging-face",
