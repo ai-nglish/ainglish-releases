@@ -26,6 +26,9 @@ python3 tools/audit_distribution.py --online
 python3 tools/audit_distribution.py --online --require-complete
 ```
 
+The default ledger remains release 3. Pass `--ledger distribution/release-N.json` explicitly
+when auditing another release; a successful release-3 audit does not verify release 4.
+
 The JSON receipt distinguishes `verified`, `pending`, `ready_to_promote`, `failed`, and
 `manual_receipt`. A pending URL that starts passing is reported as `ready_to_promote`; the program
 does not edit its own ledger or turn a transient network result into a durable claim.
@@ -38,6 +41,10 @@ does not edit its own ledger or turn a transient network result into a durable c
 - catalogue states describe an external human workflow, not a byte mirror.
 - `required` says whether the project's release checklist treats the channel as part of complete
   distribution. It does not make a third-party service authoritative.
+- The ledger's top-level `observed_at` is the UTC completion time of the latest audit of its
+  declared state. Refresh it when rechecking or promoting channels; it must not predate any
+  channel-specific observation receipt. Preserve those receipts' original event times. Do not
+  advance this timestamp merely because the file was edited.
 
 Never stage a future release merely to populate this ledger. Create or update a release ledger only
 after a conscious decision to publish that release. Record what was actually observed, pin moving
