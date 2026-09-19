@@ -60,7 +60,7 @@ reproducible under their original shared-version contract.
 
 The [`deposits/`](deposits/) directory carries a deterministic single-file upload plus prepared
 Mozilla Data Collective and CLARIN/VLO metadata for a legal human representative to submit.
-The machine-readable [`distribution/release-3.json`](distribution/release-3.json) ledger and
+The machine-readable [`distribution/release-4.json`](distribution/release-4.json) ledger (release 3: [`release-3.json`](distribution/release-3.json)) and
 [`audit_distribution.py`](tools/audit_distribution.py) verifier distinguish local validity,
 byte-identical mirrors, catalogue discovery and downstream adoption; see the
 [`distribution runbook`](distribution/README.md).

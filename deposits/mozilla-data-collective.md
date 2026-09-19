@@ -108,7 +108,7 @@ row are authoritative.
 
 ### Size and structure
 
-The unpacked pack is under 500 KB. Relevant row counts are 32 register rows, 66 parallel rows, 164
+The unpacked pack is 578,008 bytes (about 565 KiB) across 15 files; the transport archive is 244,943 bytes. Relevant row counts are 32 register rows, 66 parallel rows, 164
 instruction rows and 32 pretraining/Dolma documents. Formats are newline-delimited JSON, Apache
 Parquet, gzip-compressed Dolma JSONL, Markdown, JSON and plain-text checksums. See `MANIFEST.json`
 for byte sizes and per-file digests.
